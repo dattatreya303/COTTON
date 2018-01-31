@@ -10,6 +10,9 @@ namespace cotton_runtime {
 		unsigned int tail;
 		std::function<void()> task_deque[MAX_DEQUE_SIZE];
 
+		Deque() { head = 0; tail = 0; }
+
+		bool isEmpty();
 		std::function<void()> pop_from_deque();
 		std::function<void()> steal_from_deque();
 		void push_to_deque(std::function<void()> &&lambda);

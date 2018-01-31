@@ -6,6 +6,8 @@ pthread_mutex_t FINISH_MUTEX;
 pthread_t thread[MAX_WORKERS];
 static pthread_key_t THREAD_KEY;
 volatile unsigned int FINISH_COUNTER;
+pthread_mutex_t DEQUE_MUTEX[MAX_WORKERS];
+cotton_runtime::Deque DEQUE_ARRAY[MAX_WORKERS];
 static pthread_once_t THREAD_KEY_ONCE = PTHREAD_ONCE_INIT;
 
 void cotton_runtime::Deque::push_to_deque(std::function<void()> &&lambda) {
@@ -17,8 +19,15 @@ void cotton_runtime::Deque::push_to_deque(std::function<void()> &&lambda) {
 	tail = (tail + 1) % MAX_DEQUE_SIZE;
 }
 
+bool cotton_runtime::Deque::isEmpty(){
+	if( tail == head ){
+		return true;
+	}
+	return false;
+}
+
 std::function<void()> cotton_runtime::Deque::pop_from_deque() {
-	if( tail == head ) {
+	if( isEmpty() ) {
 		return NULL;
 	}
 
@@ -29,7 +38,7 @@ std::function<void()> cotton_runtime::Deque::pop_from_deque() {
 }
 
 std::function<void()> cotton_runtime::Deque::steal_from_deque() {
-	if( tail == head ) {
+	if( isEmpty() ) {
 		return NULL;
 	}
 
@@ -76,11 +85,18 @@ void cotton_runtime::find_and_execute_task() {
 }
 
 void cotton_runtime::push_task_to_runtime(std::function<void()> &&lambda){
-	
+	int current_thread_id = cotton_runtime::get_threadID();
+	DEQUE_ARRAY[ current_thread_id ].push_to_deque( std::move(lambda) );
 }
 
 std::function<void()> cotton_runtime::grab_task_from_runtime(){
+	int current_thread_id = cotton_runtime::get_threadID();
 	
+	pthread_mutex_lock( &DEQUE_MUTEX[ current_thread_id ] );
+	auto grabbed_task = DEQUE_ARRAY[ current_thread_id ].pop_from_deque();
+	pthread_mutex_unlock( &DEQUE_MUTEX[ current_thread_id ] );
+
+	return grabbed_task;
 }
 
 void cotton::init_runtime() {
