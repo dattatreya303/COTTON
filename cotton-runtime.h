@@ -1,8 +1,20 @@
 #include "cotton.h"
 
 #define MAX_WORKERS 4
+#define MAX_DEQUE_SIZE 10
 
 namespace cotton_runtime {
+
+	struct Deque {
+		unsigned int head;
+		unsigned int tail;
+		std::function<void()> task_deque[MAX_DEQUE_SIZE];
+
+		std::function<void()> pop_from_deque();
+		std::function<void()> steal_from_deque();
+		void push_to_deque(std::function<void()> &&lambda);
+	};
+
 	void lib_key_init();
 	unsigned int get_threadID();
 	void find_and_execute_task();

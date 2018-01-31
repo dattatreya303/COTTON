@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <pthread.h>
+#include <stdexcept>
 #include <functional>
 
 namespace cotton {

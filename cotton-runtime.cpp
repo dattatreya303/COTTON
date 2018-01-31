@@ -8,6 +8,38 @@ static pthread_key_t THREAD_KEY;
 volatile unsigned int FINISH_COUNTER;
 static pthread_once_t THREAD_KEY_ONCE = PTHREAD_ONCE_INIT;
 
+void cotton_runtime::Deque::push_to_deque(std::function<void()> &&lambda) {
+	if( (tail + 1) % MAX_DEQUE_SIZE == head ) {
+		throw std::out_of_range("Number of tasks exceeded deque size!");
+	}
+
+	task_deque[tail] = lambda;
+	tail = (tail + 1) % MAX_DEQUE_SIZE;
+}
+
+std::function<void()> cotton_runtime::Deque::pop_from_deque() {
+	if( tail == head ) {
+		return NULL;
+	}
+
+	tail--;
+	tail = (tail < 0) ? MAX_DEQUE_SIZE - 1 : tail;
+
+	return task_deque[tail];
+}
+
+std::function<void()> cotton_runtime::Deque::steal_from_deque() {
+	if( tail == head ) {
+		return NULL;
+	}
+
+	auto stolen_task = task_deque[head];
+	head = ( head + 1 ) % MAX_DEQUE_SIZE;
+	
+	return stolen_task;
+}
+
+
 unsigned int cotton_runtime::thread_pool_size() {
 	return (unsigned int)atoi(std::getenv("COTTON_WORKERS"));
 }
