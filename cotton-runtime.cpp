@@ -69,7 +69,8 @@ void cotton::init_runtime() {
 }
 
 void cotton::async(std::function<void()> &&lambda) {
-	cotton_runtime::push_task_to_runtime( std::forward< std::function<void()> >(lambda) );
+	// cotton_runtime::push_task_to_runtime( std::forward< std::function<void()> >(lambda) );
+	cotton_runtime::push_task_to_runtime( std::move(lambda) );
 
 	pthread_mutex_lock(&FINISH_MUTEX);
 	FINISH_COUNTER++;
