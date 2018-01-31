@@ -96,6 +96,13 @@ std::function<void()> cotton_runtime::grab_task_from_runtime(){
 	auto grabbed_task = DEQUE_ARRAY[ current_thread_id ].pop_from_deque();
 	pthread_mutex_unlock( &DEQUE_MUTEX[ current_thread_id ] );
 
+	if( grabbed_task == NULL ) {
+		int random_deque_id = rand() % MAX_DEQUE_SIZE;
+		pthread_mutex_lock( &DEQUE_MUTEX[ random_deque_id ] );
+		grabbed_task = DEQUE_ARRAY[ random_deque_id ].steal_from_deque();
+		pthread_mutex_unlock( &DEQUE_MUTEX[ random_deque_id ] );
+	}
+
 	return grabbed_task;
 }
 
