@@ -6,8 +6,8 @@ pthread_mutex_t FINISH_MUTEX;
 pthread_t thread[MAX_WORKERS];
 static pthread_key_t THREAD_KEY;
 volatile unsigned int FINISH_COUNTER;
-pthread_mutex_t DEQUE_MUTEX[MAX_WORKERS];
-cotton_runtime::Deque DEQUE_ARRAY[MAX_WORKERS];
+static pthread_mutex_t DEQUE_MUTEX[MAX_WORKERS];
+static cotton_runtime::Deque DEQUE_ARRAY[MAX_WORKERS];
 static pthread_once_t THREAD_KEY_ONCE = PTHREAD_ONCE_INIT;
 
 void cotton_runtime::Deque::push_to_deque(std::function<void()> &&lambda) {
@@ -64,7 +64,8 @@ unsigned int cotton_runtime::get_threadID(){
 }
 
 void *cotton_runtime::worker_routine(void *args) {
-	int thread_id = *(int *)args;
+	unsigned int thread_id = *(unsigned int *)args;
+
 	if( pthread_setspecific(THREAD_KEY, &thread_id) ) {
 		std::cout << "ERROR!! pthread_setspecific() in worker_routine() " << std::endl;
 	}
@@ -92,12 +93,16 @@ void cotton_runtime::push_task_to_runtime(std::function<void()> &&lambda){
 std::function<void()> cotton_runtime::grab_task_from_runtime(){
 	int current_thread_id = cotton_runtime::get_threadID();
 	
+	
 	pthread_mutex_lock( &DEQUE_MUTEX[ current_thread_id ] );
 	auto grabbed_task = DEQUE_ARRAY[ current_thread_id ].pop_from_deque();
 	pthread_mutex_unlock( &DEQUE_MUTEX[ current_thread_id ] );
 
 	if( grabbed_task == NULL ) {
-		int random_deque_id = rand() % MAX_DEQUE_SIZE;
+		int random_deque_id = current_thread_id;
+		while( random_deque_id == current_thread_id ) {
+			random_deque_id = rand() % MAX_DEQUE_SIZE;
+		}
 		pthread_mutex_lock( &DEQUE_MUTEX[ random_deque_id ] );
 		grabbed_task = DEQUE_ARRAY[ random_deque_id ].steal_from_deque();
 		pthread_mutex_unlock( &DEQUE_MUTEX[ random_deque_id ] );
@@ -111,20 +116,20 @@ void cotton::init_runtime() {
 		std::cout << "ERROR!! init_runtime() key init" << std::endl;
 	}
 
-	int main_thread_id = 0;
+	unsigned int main_thread_id = 0;
 	if( pthread_setspecific(THREAD_KEY, &main_thread_id) ) {
 		std::cout << "ERROR!! pthread_setspecific() in init_runtime()" << std::endl;
 	}
 
 	SHUTDOWN = false;
-	for(int i = 1; i < cotton_runtime::thread_pool_size(); i++) {
-		int arg = i;
-		int status = pthread_create(&thread[i], NULL, cotton_runtime::worker_routine, &arg);
+	unsigned int *args = (unsigned int *)malloc( sizeof(unsigned int) * cotton_runtime::thread_pool_size() );
+	for(unsigned int i = 1; i < cotton_runtime::thread_pool_size(); i++) {
+		*(args+i) = i;
+		int status = pthread_create(&thread[i], NULL, cotton_runtime::worker_routine, args+i);
 	}
 }
 
 void cotton::async(std::function<void()> &&lambda) {
-	// cotton_runtime::push_task_to_runtime( std::forward< std::function<void()> >(lambda) );
 	cotton_runtime::push_task_to_runtime( std::move(lambda) );
 
 	pthread_mutex_lock(&FINISH_MUTEX);
@@ -140,7 +145,6 @@ void cotton::end_finish() {
 	while( FINISH_COUNTER != 0 ) {
 		cotton_runtime::find_and_execute_task();
 	}
-	return;
 }
 
 void cotton::finalize_runtime() {
@@ -148,5 +152,4 @@ void cotton::finalize_runtime() {
 	for(int i = 1; i < cotton_runtime::thread_pool_size(); i++) {
 		pthread_join(thread[i], NULL);
 	}
-	return;
 }

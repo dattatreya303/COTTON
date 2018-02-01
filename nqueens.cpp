@@ -127,7 +127,6 @@ long get_usecs (void)
 int main(int argc, char* argv[])
 {
   cotton::init_runtime();
-  printf("Works!\n");
   int n = 11;
   int i, j;
      
