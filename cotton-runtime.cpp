@@ -200,11 +200,11 @@ Creates the task and pushes it to the calling thread's deque data structure and 
 @return Void
 **/
 void cotton::async(std::function<void()> &&lambda) {
-	cotton_runtime::push_task_to_runtime( std::move(lambda) );
-
 	pthread_mutex_lock(&FINISH_MUTEX);
 	FINISH_COUNTER++;
 	pthread_mutex_unlock(&FINISH_MUTEX);
+	
+	cotton_runtime::push_task_to_runtime( std::move(lambda) );
 }
 
 /**
