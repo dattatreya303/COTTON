@@ -3,7 +3,7 @@
 #define MAX_WORKERS 100
 #define MAX_DEQUE_SIZE 100
 
-namespace cotton_runtime {
+namespace cotton {
 
 	struct Deque {
 		unsigned int head;
