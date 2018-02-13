@@ -69,10 +69,21 @@ std::function<void()> cotton::Deque::steal_from_deque() {
 /**
 Wrapper to get the value mentioned in the environment variable COTTON_WORKERS
 
-@return Number of threads to use at max
+@return Number of threads to use at max (default = 1)
 **/
 unsigned int cotton::thread_pool_size() {
-	return (unsigned int)atoi(std::getenv("COTTON_WORKERS"));
+	char * envData = std::getenv("COTTON_WORKERS");
+	unsigned int numWorkers = cotton::DEFAULT_NUM_WORKERS;
+
+	if(envData != '\0'){
+		numWorkers = (unsigned int)atoi(std::getenv("COTTON_WORKERS"));
+	}
+	else{
+		printf("COTTON_WORKERS environment variable not found.\n");
+		printf("Using default number of workers (= %d).\n", cotton::DEFAULT_NUM_WORKERS);
+	}
+	
+	return numWorkers;
 }
 
 /**
@@ -176,21 +187,17 @@ void cotton::init_runtime() {
 		std::cout << "ERROR!! init_runtime() key init" << std::endl;
 	}
 
-	// thread = (pthread_t *)malloc(sizeof(pthread_t)*cotton::thread_pool_size());
-
-	// cotton::DEQUE_ARRAY = (cotton::Deque *)malloc(sizeof(cotton::Deque)*cotton::thread_pool_size());
-
-	// cotton::DEQUE_MUTEX = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t)*cotton::thread_pool_size());
-
 	unsigned int main_thread_id = 0;
 	if( pthread_setspecific(cotton::THREAD_KEY, &main_thread_id) ) {
 		std::cout << "ERROR!! pthread_setspecific() in init_runtime()" << std::endl;
 	}
 
+	cotton::NUM_WORKERS = cotton::thread_pool_size();
+
 
 	cotton::SHUTDOWN = false;
-	unsigned int *args = (unsigned int *)malloc( sizeof(unsigned int) * cotton::thread_pool_size() );
-	for(unsigned int i = 1; i < cotton::thread_pool_size(); i++) {
+	unsigned int *args = (unsigned int *)malloc( sizeof(unsigned int) * cotton::NUM_WORKERS );
+	for(unsigned int i = 1; i < cotton::NUM_WORKERS; i++) {
 		*(args+i) = i;
 		int status = pthread_create(&cotton::thread[i], NULL, cotton::worker_routine, args+i);
 	}
@@ -237,7 +244,7 @@ Waits till all the threads that have been spawed have finished executing the tas
 **/
 void cotton::finalize_runtime() {
 	cotton::SHUTDOWN = true;
-	for(int i = 1; i < cotton::thread_pool_size(); i++) {
+	for(int i = 1; i < cotton::NUM_WORKERS; i++) {
 		pthread_join(cotton::thread[i], NULL);
 	}
 }

@@ -9,6 +9,8 @@
 namespace cotton {
 
 	const unsigned int MAX_WORKERS = 100;
+	const unsigned int DEFAULT_NUM_WORKERS = 1;
+	unsigned int NUM_WORKERS = 0;
 	const unsigned int MAX_DEQUE_SIZE = 100;
 	volatile bool SHUTDOWN;
 	pthread_mutex_t FINISH_MUTEX;
