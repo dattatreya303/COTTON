@@ -5,10 +5,18 @@
 
 #include "cotton.h"
 
-#define MAX_WORKERS 100
-#define MAX_DEQUE_SIZE 100
 
 namespace cotton {
+
+	const unsigned int MAX_WORKERS = 100;
+	const unsigned int MAX_DEQUE_SIZE = 100;
+	volatile bool SHUTDOWN;
+	pthread_mutex_t FINISH_MUTEX;
+	pthread_t thread[MAX_WORKERS];
+	static pthread_key_t THREAD_KEY;
+	volatile unsigned int FINISH_COUNTER;
+	static pthread_mutex_t DEQUE_MUTEX[MAX_WORKERS];
+	static pthread_once_t THREAD_KEY_ONCE = PTHREAD_ONCE_INIT;
 
 	struct Deque {
 		volatile unsigned int head;
@@ -24,6 +32,7 @@ namespace cotton {
 		std::function<void()> steal_from_deque();
 		void push_to_deque(std::function<void()> &&lambda);
 	};
+	static Deque DEQUE_ARRAY[MAX_DEQUE_SIZE];
 
 	void lib_key_init();
 	unsigned int get_threadID();
