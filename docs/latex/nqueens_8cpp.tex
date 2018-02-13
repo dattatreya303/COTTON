@@ -1,0 +1,106 @@
+\hypertarget{nqueens_8cpp}{}\section{nqueens.\+cpp File Reference}
+\label{nqueens_8cpp}\index{nqueens.\+cpp@{nqueens.\+cpp}}
+{\ttfamily \#include \char`\"{}cotton.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$sys/time.\+h$>$}\newline
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{nqueens_8cpp_a5d9bf312ff486470f82ebf3e61d07140}{ok}} (int n, int $\ast$A)
+\item 
+void \mbox{\hyperlink{nqueens_8cpp_a58b50830798ce70e381b2d88f45fda26}{nqueens\+\_\+kernel}} (int $\ast$A, int depth, int size)
+\item 
+void \mbox{\hyperlink{nqueens_8cpp_a3bb7ae5cc50c4e8252e093438badc9c4}{verify\+\_\+queens}} (int size)
+\item 
+long \mbox{\hyperlink{nqueens_8cpp_a36b401586414efcab39afdb055fd33c5}{get\+\_\+usecs}} (void)
+\item 
+int \mbox{\hyperlink{nqueens_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{main}} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{nqueens_8cpp_ac3e174b723a725dab57a5d7dad0f899e}{solutions}} \mbox{[}16\mbox{]}
+\item 
+volatile int $\ast$ \mbox{\hyperlink{nqueens_8cpp_aa8070c6249cb517e0fff522d674dd67a}{atomic}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{nqueens_8cpp_a36b401586414efcab39afdb055fd33c5}\label{nqueens_8cpp_a36b401586414efcab39afdb055fd33c5}} 
+\index{nqueens.\+cpp@{nqueens.\+cpp}!get\+\_\+usecs@{get\+\_\+usecs}}
+\index{get\+\_\+usecs@{get\+\_\+usecs}!nqueens.\+cpp@{nqueens.\+cpp}}
+\subsubsection{\texorpdfstring{get\+\_\+usecs()}{get\_usecs()}}
+{\footnotesize\ttfamily long get\+\_\+usecs (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{nqueens_8cpp_a0ddf1224851353fc92bfbff6f499fa97}\label{nqueens_8cpp_a0ddf1224851353fc92bfbff6f499fa97}} 
+\index{nqueens.\+cpp@{nqueens.\+cpp}!main@{main}}
+\index{main@{main}!nqueens.\+cpp@{nqueens.\+cpp}}
+\subsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{nqueens_8cpp_a58b50830798ce70e381b2d88f45fda26}\label{nqueens_8cpp_a58b50830798ce70e381b2d88f45fda26}} 
+\index{nqueens.\+cpp@{nqueens.\+cpp}!nqueens\+\_\+kernel@{nqueens\+\_\+kernel}}
+\index{nqueens\+\_\+kernel@{nqueens\+\_\+kernel}!nqueens.\+cpp@{nqueens.\+cpp}}
+\subsubsection{\texorpdfstring{nqueens\+\_\+kernel()}{nqueens\_kernel()}}
+{\footnotesize\ttfamily void nqueens\+\_\+kernel (\begin{DoxyParamCaption}\item[{int $\ast$}]{A,  }\item[{int}]{depth,  }\item[{int}]{size }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{nqueens_8cpp_a5d9bf312ff486470f82ebf3e61d07140}\label{nqueens_8cpp_a5d9bf312ff486470f82ebf3e61d07140}} 
+\index{nqueens.\+cpp@{nqueens.\+cpp}!ok@{ok}}
+\index{ok@{ok}!nqueens.\+cpp@{nqueens.\+cpp}}
+\subsubsection{\texorpdfstring{ok()}{ok()}}
+{\footnotesize\ttfamily int ok (\begin{DoxyParamCaption}\item[{int}]{n,  }\item[{int $\ast$}]{A }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{nqueens_8cpp_a3bb7ae5cc50c4e8252e093438badc9c4}\label{nqueens_8cpp_a3bb7ae5cc50c4e8252e093438badc9c4}} 
+\index{nqueens.\+cpp@{nqueens.\+cpp}!verify\+\_\+queens@{verify\+\_\+queens}}
+\index{verify\+\_\+queens@{verify\+\_\+queens}!nqueens.\+cpp@{nqueens.\+cpp}}
+\subsubsection{\texorpdfstring{verify\+\_\+queens()}{verify\_queens()}}
+{\footnotesize\ttfamily void verify\+\_\+queens (\begin{DoxyParamCaption}\item[{int}]{size }\end{DoxyParamCaption})}
+
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{nqueens_8cpp_aa8070c6249cb517e0fff522d674dd67a}\label{nqueens_8cpp_aa8070c6249cb517e0fff522d674dd67a}} 
+\index{nqueens.\+cpp@{nqueens.\+cpp}!atomic@{atomic}}
+\index{atomic@{atomic}!nqueens.\+cpp@{nqueens.\+cpp}}
+\subsubsection{\texorpdfstring{atomic}{atomic}}
+{\footnotesize\ttfamily volatile int$\ast$ atomic}
+
+\mbox{\Hypertarget{nqueens_8cpp_ac3e174b723a725dab57a5d7dad0f899e}\label{nqueens_8cpp_ac3e174b723a725dab57a5d7dad0f899e}} 
+\index{nqueens.\+cpp@{nqueens.\+cpp}!solutions@{solutions}}
+\index{solutions@{solutions}!nqueens.\+cpp@{nqueens.\+cpp}}
+\subsubsection{\texorpdfstring{solutions}{solutions}}
+{\footnotesize\ttfamily int solutions\mbox{[}16\mbox{]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+=
+\{
+1,
+0,
+0,
+2,
+10, 
+4,
+40,
+92,
+352,
+724, 
+2680,
+14200,
+73712,
+365596,
+2279184, 
+14772512
+\}
+\end{DoxyCode}
+Nqueens was ported from the B\+O\+TS nqueens.\+c benchmark. See below for provenance. This program computes all solutions to the n-\/queens problem where n is specified in argv\mbox{[}1\mbox{]} (default = 11) The program uses the count of the total number of solutions as a correctness check and also prints the execution time for each repetition. 
+
+Note the use of single \char`\"{}finish\char`\"{} statement in \mbox{\hyperlink{nqueens_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{main()}} that awaits termination of all async\textquotesingle{}s created by the recursive calls to nqueens\+\_\+kernel. 
+
+To study scalability on a multi-\/core processor, you can execute \char`\"{}\+C\+O\+T\+T\+O\+N\+\_\+\+W\+O\+R\+K\+E\+R\+S=$<$\+N$>$ ./nqueens 11\char`\"{} by varying the number of worker (=N) threads.
+
+\begin{DoxyAuthor}{Author}
+Jun Shirako, Rice University 
+
+Vivek Sarkar, Rice University
+\end{DoxyAuthor}
+Modifed by Vivek Kumar for C\+SE 502 at I\+I\+I\+TD 

@@ -1,3 +1,8 @@
+/**
+@file
+@brief Header for COTTON runtime metohds.
+**/
+
 #include "cotton.h"
 
 #define MAX_WORKERS 100
@@ -8,9 +13,12 @@ namespace cotton {
 	struct Deque {
 		unsigned int head;
 		unsigned int tail;
-		std::function<void()> task_deque[MAX_DEQUE_SIZE];
+		std::function<void()>* task_deque;
 
-		Deque() { head = 0; tail = 0; }
+		Deque() {
+			head = 0; tail = 0;
+			task_deque = (std::function<void()> *)malloc(sizeof(std::function<void()>)*MAX_DEQUE_SIZE);
+		}
 
 		bool isEmpty();
 		std::function<void()> pop_from_deque();

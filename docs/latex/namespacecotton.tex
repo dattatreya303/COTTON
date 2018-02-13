@@ -1,0 +1,181 @@
+\hypertarget{namespacecotton}{}\section{cotton Namespace Reference}
+\label{namespacecotton}\index{cotton@{cotton}}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structcotton_1_1Deque}{Deque}}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{namespacecotton_a4ea9036584fa3bd86fe8626dc05d295f}{lib\+\_\+key\+\_\+init}} ()
+\item 
+unsigned int \mbox{\hyperlink{namespacecotton_ab1ebe1f6821a54e7c4911c22acebff8a}{get\+\_\+thread\+ID}} ()
+\item 
+void \mbox{\hyperlink{namespacecotton_af22caee9434a7e06a09b2f9a0417c1eb}{find\+\_\+and\+\_\+execute\+\_\+task}} ()
+\item 
+unsigned int \mbox{\hyperlink{namespacecotton_a0b32dd3b6a3d126e107d5c77ec1f4cc3}{thread\+\_\+pool\+\_\+size}} ()
+\item 
+void $\ast$ \mbox{\hyperlink{namespacecotton_a361c34063ecb68cf02d417074decb12b}{worker\+\_\+routine}} (void $\ast$args)
+\item 
+std\+::function$<$ void()$>$ \mbox{\hyperlink{namespacecotton_afaca8aa46092d066bf1d996ae09fb83d}{grab\+\_\+task\+\_\+from\+\_\+runtime}} ()
+\item 
+void \mbox{\hyperlink{namespacecotton_a2b2001813bd051cd1ff41a75989667c0}{push\+\_\+task\+\_\+to\+\_\+runtime}} (std\+::function$<$ void()$>$ \&\&lambda)
+\item 
+void \mbox{\hyperlink{namespacecotton_ae391d31cf35efbf9e644206001d7fc6d}{init\+\_\+runtime}} ()
+\item 
+void \mbox{\hyperlink{namespacecotton_a3a7e86503c4fd0c48774e2ffc43d947a}{async}} (std\+::function$<$ void()$>$ \&\&lambda)
+\item 
+void \mbox{\hyperlink{namespacecotton_aae085573bf6951565449c429ac59c43c}{start\+\_\+finish}} ()
+\item 
+void \mbox{\hyperlink{namespacecotton_ab413e05e91ff6e4918aa9aa63d52b2ff}{end\+\_\+finish}} ()
+\item 
+void \mbox{\hyperlink{namespacecotton_a3061b2929300562580e4bf1416372c3f}{finalize\+\_\+runtime}} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{namespacecotton_a3a7e86503c4fd0c48774e2ffc43d947a}\label{namespacecotton_a3a7e86503c4fd0c48774e2ffc43d947a}} 
+\index{cotton@{cotton}!async@{async}}
+\index{async@{async}!cotton@{cotton}}
+\subsubsection{\texorpdfstring{async()}{async()}}
+{\footnotesize\ttfamily void cotton\+::async (\begin{DoxyParamCaption}\item[{std\+::function$<$ void()$>$ \&\&}]{lambda }\end{DoxyParamCaption})}
+
+Creates the task and pushes it to the calling thread\textquotesingle{}s deque data structure and increments the finish counter after taking a lock
+
+
+\begin{DoxyParams}{Parameters}
+{\em lambda} & Takes the task encapsulated in a lamda function \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{namespacecotton_ab413e05e91ff6e4918aa9aa63d52b2ff}\label{namespacecotton_ab413e05e91ff6e4918aa9aa63d52b2ff}} 
+\index{cotton@{cotton}!end\+\_\+finish@{end\+\_\+finish}}
+\index{end\+\_\+finish@{end\+\_\+finish}!cotton@{cotton}}
+\subsubsection{\texorpdfstring{end\+\_\+finish()}{end\_finish()}}
+{\footnotesize\ttfamily void cotton\+::end\+\_\+finish (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Keeps spinning until the calling thread cannot find any task so that we can avoid it being idle
+
+\begin{DoxyReturn}{Returns}
+Void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{namespacecotton_a3061b2929300562580e4bf1416372c3f}\label{namespacecotton_a3061b2929300562580e4bf1416372c3f}} 
+\index{cotton@{cotton}!finalize\+\_\+runtime@{finalize\+\_\+runtime}}
+\index{finalize\+\_\+runtime@{finalize\+\_\+runtime}!cotton@{cotton}}
+\subsubsection{\texorpdfstring{finalize\+\_\+runtime()}{finalize\_runtime()}}
+{\footnotesize\ttfamily void cotton\+::finalize\+\_\+runtime (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Waits till all the threads that have been spawed have finished executing the tasks
+
+\begin{DoxyReturn}{Returns}
+Void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{namespacecotton_af22caee9434a7e06a09b2f9a0417c1eb}\label{namespacecotton_af22caee9434a7e06a09b2f9a0417c1eb}} 
+\index{cotton@{cotton}!find\+\_\+and\+\_\+execute\+\_\+task@{find\+\_\+and\+\_\+execute\+\_\+task}}
+\index{find\+\_\+and\+\_\+execute\+\_\+task@{find\+\_\+and\+\_\+execute\+\_\+task}!cotton@{cotton}}
+\subsubsection{\texorpdfstring{find\+\_\+and\+\_\+execute\+\_\+task()}{find\_and\_execute\_task()}}
+{\footnotesize\ttfamily void cotton\+::find\+\_\+and\+\_\+execute\+\_\+task (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Finds a task from the per thread deque data structures, executes it and finally decrements the volatile finish counter after acquiring the lock
+
+\begin{DoxyReturn}{Returns}
+Void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{namespacecotton_ab1ebe1f6821a54e7c4911c22acebff8a}\label{namespacecotton_ab1ebe1f6821a54e7c4911c22acebff8a}} 
+\index{cotton@{cotton}!get\+\_\+thread\+ID@{get\+\_\+thread\+ID}}
+\index{get\+\_\+thread\+ID@{get\+\_\+thread\+ID}!cotton@{cotton}}
+\subsubsection{\texorpdfstring{get\+\_\+thread\+I\+D()}{get\_threadID()}}
+{\footnotesize\ttfamily unsigned int cotton\+::get\+\_\+thread\+ID (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Gives the calling thread\textquotesingle{}s ID used to access the per thread deque data structure
+
+\begin{DoxyReturn}{Returns}
+Thread ID of the calling thread 
+\end{DoxyReturn}
+\mbox{\Hypertarget{namespacecotton_afaca8aa46092d066bf1d996ae09fb83d}\label{namespacecotton_afaca8aa46092d066bf1d996ae09fb83d}} 
+\index{cotton@{cotton}!grab\+\_\+task\+\_\+from\+\_\+runtime@{grab\+\_\+task\+\_\+from\+\_\+runtime}}
+\index{grab\+\_\+task\+\_\+from\+\_\+runtime@{grab\+\_\+task\+\_\+from\+\_\+runtime}!cotton@{cotton}}
+\subsubsection{\texorpdfstring{grab\+\_\+task\+\_\+from\+\_\+runtime()}{grab\_task\_from\_runtime()}}
+{\footnotesize\ttfamily std\+::function$<$ void()$>$ cotton\+::grab\+\_\+task\+\_\+from\+\_\+runtime (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Pops or steals a task encapsulated as a lambda function from the caller or the victim thread\textquotesingle{}s deque data structure.
+
+It first checks in the calling thread deque data structure and if if does not find any then it tries to steal for other threads\textquotesingle{} deque data structure. All this is done after taking the necessary locks to avoid data races
+
+\begin{DoxyReturn}{Returns}
+Task encapsulated in a lambda function 
+\end{DoxyReturn}
+\mbox{\Hypertarget{namespacecotton_ae391d31cf35efbf9e644206001d7fc6d}\label{namespacecotton_ae391d31cf35efbf9e644206001d7fc6d}} 
+\index{cotton@{cotton}!init\+\_\+runtime@{init\+\_\+runtime}}
+\index{init\+\_\+runtime@{init\+\_\+runtime}!cotton@{cotton}}
+\subsubsection{\texorpdfstring{init\+\_\+runtime()}{init\_runtime()}}
+{\footnotesize\ttfamily void cotton\+::init\+\_\+runtime (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Spawns all the required threads after initializing the pthread key and setting the ID of the main thread
+
+\begin{DoxyReturn}{Returns}
+Void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{namespacecotton_a4ea9036584fa3bd86fe8626dc05d295f}\label{namespacecotton_a4ea9036584fa3bd86fe8626dc05d295f}} 
+\index{cotton@{cotton}!lib\+\_\+key\+\_\+init@{lib\+\_\+key\+\_\+init}}
+\index{lib\+\_\+key\+\_\+init@{lib\+\_\+key\+\_\+init}!cotton@{cotton}}
+\subsubsection{\texorpdfstring{lib\+\_\+key\+\_\+init()}{lib\_key\_init()}}
+{\footnotesize\ttfamily void cotton\+::lib\+\_\+key\+\_\+init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Wrapper to initialize the value of the pthread key variable with proper error checking
+
+\begin{DoxyReturn}{Returns}
+Void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{namespacecotton_a2b2001813bd051cd1ff41a75989667c0}\label{namespacecotton_a2b2001813bd051cd1ff41a75989667c0}} 
+\index{cotton@{cotton}!push\+\_\+task\+\_\+to\+\_\+runtime@{push\+\_\+task\+\_\+to\+\_\+runtime}}
+\index{push\+\_\+task\+\_\+to\+\_\+runtime@{push\+\_\+task\+\_\+to\+\_\+runtime}!cotton@{cotton}}
+\subsubsection{\texorpdfstring{push\+\_\+task\+\_\+to\+\_\+runtime()}{push\_task\_to\_runtime()}}
+{\footnotesize\ttfamily void cotton\+::push\+\_\+task\+\_\+to\+\_\+runtime (\begin{DoxyParamCaption}\item[{std\+::function$<$ void()$>$ \&\&}]{lambda }\end{DoxyParamCaption})}
+
+Pushes a task encapsulated in a lambda function into the calling thread\textquotesingle{}s data structure
+
+\begin{DoxyReturn}{Returns}
+Void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{namespacecotton_aae085573bf6951565449c429ac59c43c}\label{namespacecotton_aae085573bf6951565449c429ac59c43c}} 
+\index{cotton@{cotton}!start\+\_\+finish@{start\+\_\+finish}}
+\index{start\+\_\+finish@{start\+\_\+finish}!cotton@{cotton}}
+\subsubsection{\texorpdfstring{start\+\_\+finish()}{start\_finish()}}
+{\footnotesize\ttfamily void cotton\+::start\+\_\+finish (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Initializes the value of the finish counter
+
+\begin{DoxyReturn}{Returns}
+Void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{namespacecotton_a0b32dd3b6a3d126e107d5c77ec1f4cc3}\label{namespacecotton_a0b32dd3b6a3d126e107d5c77ec1f4cc3}} 
+\index{cotton@{cotton}!thread\+\_\+pool\+\_\+size@{thread\+\_\+pool\+\_\+size}}
+\index{thread\+\_\+pool\+\_\+size@{thread\+\_\+pool\+\_\+size}!cotton@{cotton}}
+\subsubsection{\texorpdfstring{thread\+\_\+pool\+\_\+size()}{thread\_pool\_size()}}
+{\footnotesize\ttfamily unsigned int cotton\+::thread\+\_\+pool\+\_\+size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Wrapper to get the value mentioned in the environment variable C\+O\+T\+T\+O\+N\+\_\+\+W\+O\+R\+K\+E\+RS
+
+\begin{DoxyReturn}{Returns}
+Number of threads to use at max 
+\end{DoxyReturn}
+\mbox{\Hypertarget{namespacecotton_a361c34063ecb68cf02d417074decb12b}\label{namespacecotton_a361c34063ecb68cf02d417074decb12b}} 
+\index{cotton@{cotton}!worker\+\_\+routine@{worker\+\_\+routine}}
+\index{worker\+\_\+routine@{worker\+\_\+routine}!cotton@{cotton}}
+\subsubsection{\texorpdfstring{worker\+\_\+routine()}{worker\_routine()}}
+{\footnotesize\ttfamily void $\ast$ cotton\+::worker\+\_\+routine (\begin{DoxyParamCaption}\item[{void $\ast$}]{args }\end{DoxyParamCaption})}
+
+Encapsulates the work that a thread does once spawing which includes setting the per thread ID and spinning until the thread finds a task to execute
+
+
+\begin{DoxyParams}{Parameters}
+{\em args} & Contains the argument related to the ID of the calling thread \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Void 
+\end{DoxyReturn}

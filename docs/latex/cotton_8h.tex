@@ -1,0 +1,95 @@
+\hypertarget{cotton_8h}{}\section{cotton.\+h File Reference}
+\label{cotton_8h}\index{cotton.\+h@{cotton.\+h}}
+
+
+Header for C\+O\+T\+T\+ON interface.  
+
+
+{\ttfamily \#include $<$cstdio$>$}\newline
+{\ttfamily \#include $<$cstring$>$}\newline
+{\ttfamily \#include $<$cstdlib$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$pthread.\+h$>$}\newline
+{\ttfamily \#include $<$stdexcept$>$}\newline
+{\ttfamily \#include $<$functional$>$}\newline
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{cotton_8h_ae391d31cf35efbf9e644206001d7fc6d}{cotton\+::init\+\_\+runtime}} ()
+\item 
+void \mbox{\hyperlink{cotton_8h_a3a7e86503c4fd0c48774e2ffc43d947a}{cotton\+::async}} (std\+::function$<$ void()$>$ \&\&lambda)
+\item 
+void \mbox{\hyperlink{cotton_8h_aae085573bf6951565449c429ac59c43c}{cotton\+::start\+\_\+finish}} ()
+\item 
+void \mbox{\hyperlink{cotton_8h_ab413e05e91ff6e4918aa9aa63d52b2ff}{cotton\+::end\+\_\+finish}} ()
+\item 
+void \mbox{\hyperlink{cotton_8h_a3061b2929300562580e4bf1416372c3f}{cotton\+::finalize\+\_\+runtime}} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Header for C\+O\+T\+T\+ON interface. 
+
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{cotton_8h_file_a3a7e86503c4fd0c48774e2ffc43d947a}\label{cotton_8h_file_a3a7e86503c4fd0c48774e2ffc43d947a}} 
+\index{cotton.\+h@{cotton.\+h}!async@{async}}
+\index{async@{async}!cotton.\+h@{cotton.\+h}}
+\subsubsection{\texorpdfstring{async()}{async()}}
+{\footnotesize\ttfamily void cotton\+::async (\begin{DoxyParamCaption}\item[{std\+::function$<$ void()$>$ \&\&}]{lambda }\end{DoxyParamCaption})}
+
+Creates the task and pushes it to the calling thread\textquotesingle{}s deque data structure and increments the finish counter after taking a lock
+
+
+\begin{DoxyParams}{Parameters}
+{\em lambda} & Takes the task encapsulated in a lamda function \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{cotton_8h_file_ab413e05e91ff6e4918aa9aa63d52b2ff}\label{cotton_8h_file_ab413e05e91ff6e4918aa9aa63d52b2ff}} 
+\index{cotton.\+h@{cotton.\+h}!end\+\_\+finish@{end\+\_\+finish}}
+\index{end\+\_\+finish@{end\+\_\+finish}!cotton.\+h@{cotton.\+h}}
+\subsubsection{\texorpdfstring{end\+\_\+finish()}{end\_finish()}}
+{\footnotesize\ttfamily void cotton\+::end\+\_\+finish (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Keeps spinning until the calling thread cannot find any task so that we can avoid it being idle
+
+\begin{DoxyReturn}{Returns}
+Void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{cotton_8h_file_a3061b2929300562580e4bf1416372c3f}\label{cotton_8h_file_a3061b2929300562580e4bf1416372c3f}} 
+\index{cotton.\+h@{cotton.\+h}!finalize\+\_\+runtime@{finalize\+\_\+runtime}}
+\index{finalize\+\_\+runtime@{finalize\+\_\+runtime}!cotton.\+h@{cotton.\+h}}
+\subsubsection{\texorpdfstring{finalize\+\_\+runtime()}{finalize\_runtime()}}
+{\footnotesize\ttfamily void cotton\+::finalize\+\_\+runtime (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Waits till all the threads that have been spawed have finished executing the tasks
+
+\begin{DoxyReturn}{Returns}
+Void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{cotton_8h_file_ae391d31cf35efbf9e644206001d7fc6d}\label{cotton_8h_file_ae391d31cf35efbf9e644206001d7fc6d}} 
+\index{cotton.\+h@{cotton.\+h}!init\+\_\+runtime@{init\+\_\+runtime}}
+\index{init\+\_\+runtime@{init\+\_\+runtime}!cotton.\+h@{cotton.\+h}}
+\subsubsection{\texorpdfstring{init\+\_\+runtime()}{init\_runtime()}}
+{\footnotesize\ttfamily void cotton\+::init\+\_\+runtime (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Spawns all the required threads after initializing the pthread key and setting the ID of the main thread
+
+\begin{DoxyReturn}{Returns}
+Void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{cotton_8h_file_aae085573bf6951565449c429ac59c43c}\label{cotton_8h_file_aae085573bf6951565449c429ac59c43c}} 
+\index{cotton.\+h@{cotton.\+h}!start\+\_\+finish@{start\+\_\+finish}}
+\index{start\+\_\+finish@{start\+\_\+finish}!cotton.\+h@{cotton.\+h}}
+\subsubsection{\texorpdfstring{start\+\_\+finish()}{start\_finish()}}
+{\footnotesize\ttfamily void cotton\+::start\+\_\+finish (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Initializes the value of the finish counter
+
+\begin{DoxyReturn}{Returns}
+Void 
+\end{DoxyReturn}

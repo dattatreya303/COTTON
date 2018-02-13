@@ -1,13 +1,18 @@
+/**
+@file
+@brief COTTON runtime implementation.
+**/
+
 #include "cotton.h"
 #include "cotton-runtime.h"
 
 volatile bool SHUTDOWN;
 pthread_mutex_t FINISH_MUTEX;
-pthread_t thread[MAX_WORKERS];
+pthread_t *thread;
 static pthread_key_t THREAD_KEY;
 volatile unsigned int FINISH_COUNTER;
-static pthread_mutex_t DEQUE_MUTEX[MAX_WORKERS];
-static cotton::Deque DEQUE_ARRAY[MAX_WORKERS];
+static pthread_mutex_t* DEQUE_MUTEX;
+static cotton::Deque* DEQUE_ARRAY;
 static pthread_once_t THREAD_KEY_ONCE = PTHREAD_ONCE_INIT;
 
 
@@ -180,10 +185,17 @@ void cotton::init_runtime() {
 		std::cout << "ERROR!! init_runtime() key init" << std::endl;
 	}
 
+	thread = (pthread_t *)malloc(sizeof(pthread_t)*cotton::thread_pool_size());
+
+	DEQUE_ARRAY = (cotton::Deque *)malloc(sizeof(cotton::Deque)*cotton::thread_pool_size());
+
+	DEQUE_MUTEX = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t)*cotton::thread_pool_size());
+
 	unsigned int main_thread_id = 0;
 	if( pthread_setspecific(THREAD_KEY, &main_thread_id) ) {
 		std::cout << "ERROR!! pthread_setspecific() in init_runtime()" << std::endl;
 	}
+
 
 	SHUTDOWN = false;
 	unsigned int *args = (unsigned int *)malloc( sizeof(unsigned int) * cotton::thread_pool_size() );

@@ -1,3 +1,8 @@
+/**
+@file
+@brief Header for COTTON interface.
+**/
+
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>
