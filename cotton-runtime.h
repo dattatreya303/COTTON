@@ -11,13 +11,12 @@
 namespace cotton {
 
 	struct Deque {
-		unsigned int head;
-		unsigned int tail;
-		std::function<void()>* task_deque;
+		volatile unsigned int head;
+		volatile unsigned int tail;
+		std::function<void()> task_deque[MAX_WORKERS];
 
 		Deque() {
 			head = 0; tail = 0;
-			task_deque = (std::function<void()> *)malloc(sizeof(std::function<void()>)*MAX_DEQUE_SIZE);
 		}
 
 		bool isEmpty();
