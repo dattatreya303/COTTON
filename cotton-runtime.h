@@ -14,19 +14,24 @@ namespace cotton {
 	const unsigned int MAX_DEQUE_SIZE = 100;
 	volatile bool SHUTDOWN;
 	pthread_mutex_t FINISH_MUTEX;
-	pthread_t thread[MAX_WORKERS];
+	pthread_t *thread = (pthread_t *)malloc(sizeof(pthread_t) * MAX_WORKERS);
 	static pthread_key_t THREAD_KEY;
 	volatile unsigned int FINISH_COUNTER;
-	static pthread_mutex_t DEQUE_MUTEX[MAX_WORKERS];
+	static pthread_mutex_t *DEQUE_MUTEX = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * MAX_WORKERS);
 	static pthread_once_t THREAD_KEY_ONCE = PTHREAD_ONCE_INIT;
 
 	struct Deque {
 		volatile unsigned int head;
 		volatile unsigned int tail;
-		std::function<void()> task_deque[MAX_WORKERS];
+		std::function<void()> *task_deque;
 
 		Deque() {
 			head = 0; tail = 0;
+			task_deque = (std::function<void()> *)malloc(sizeof(std::function<void()>) * MAX_DEQUE_SIZE);
+		}
+
+		~Deque() {
+			free(task_deque);
 		}
 
 		bool isEmpty();
@@ -34,8 +39,9 @@ namespace cotton {
 		std::function<void()> steal_from_deque();
 		void push_to_deque(std::function<void()> &&lambda);
 	};
-	static Deque DEQUE_ARRAY[MAX_DEQUE_SIZE];
 
+	static Deque *DEQUE_ARRAY = new Deque[MAX_WORKERS];
+	
 	void lib_key_init();
 	unsigned int get_threadID();
 	void find_and_execute_task();

@@ -6,7 +6,6 @@
 #include "cotton.h"
 #include "cotton-runtime.h"
 
-
 /**
 Pushes the task to the deque data structure after checking boundary conditions
 
@@ -17,7 +16,6 @@ void cotton::Deque::push_to_deque(std::function<void()> &&lambda) {
 	if( (tail + 1) % cotton::MAX_DEQUE_SIZE == head ) {
 		throw std::out_of_range("Number of tasks exceeded deque size!");
 	}
-
 	task_deque[tail] = lambda;
 	tail = (tail + 1) % cotton::MAX_DEQUE_SIZE;
 }
@@ -144,7 +142,7 @@ Pushes a task encapsulated in a lambda function into the calling thread's data s
 
 @return Void
 **/
-void cotton::push_task_to_runtime(std::function<void()> &&lambda){
+void cotton::push_task_to_runtime(std::function<void()> &&lambda) {
 	int current_thread_id = cotton::get_threadID();
 	cotton::DEQUE_ARRAY[ current_thread_id ].push_to_deque( std::move(lambda) );
 }
@@ -156,7 +154,7 @@ It first checks in the calling thread deque data structure and if if does not fi
 
 @return Task encapsulated in a lambda function 
 **/
-std::function<void()> cotton::grab_task_from_runtime(){
+std::function<void()> cotton::grab_task_from_runtime() {
 	int current_thread_id = cotton::get_threadID();
 	
 	
@@ -183,7 +181,8 @@ Spawns all the required threads after initializing the pthread key and setting t
 @return Void
 **/
 void cotton::init_runtime() {
-	if(pthread_once(&cotton::THREAD_KEY_ONCE, cotton::lib_key_init)){
+
+	if(pthread_once(&cotton::THREAD_KEY_ONCE, cotton::lib_key_init)) {
 		std::cout << "ERROR!! init_runtime() key init" << std::endl;
 	}
 
@@ -193,7 +192,6 @@ void cotton::init_runtime() {
 	}
 
 	cotton::NUM_WORKERS = cotton::thread_pool_size();
-
 
 	cotton::SHUTDOWN = false;
 	unsigned int *args = (unsigned int *)malloc( sizeof(unsigned int) * cotton::NUM_WORKERS );
@@ -213,7 +211,6 @@ void cotton::async(std::function<void()> &&lambda) {
 	pthread_mutex_lock(&cotton::FINISH_MUTEX);
 	cotton::FINISH_COUNTER++;
 	pthread_mutex_unlock(&cotton::FINISH_MUTEX);
-	
 	cotton::push_task_to_runtime( std::move(lambda) );
 }
 
@@ -238,7 +235,7 @@ void cotton::end_finish() {
 }
 
 /**
-Waits till all the threads that have been spawed have finished executing the tasks
+Waits till all the threads that have been spawed have finished executing the tasks. Frees all the runtime allocated variables for better memory management.
 
 @return Void
 **/
@@ -247,4 +244,7 @@ void cotton::finalize_runtime() {
 	for(int i = 1; i < cotton::NUM_WORKERS; i++) {
 		pthread_join(cotton::thread[i], NULL);
 	}
+	free(cotton::thread);
+	free(cotton::DEQUE_MUTEX);
+	delete[] cotton::DEQUE_ARRAY;
 }
