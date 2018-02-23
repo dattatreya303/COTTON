@@ -7,18 +7,17 @@
 
 
 namespace cotton {
-
-	const unsigned int MAX_WORKERS = 100;
+	
 	const unsigned int DEFAULT_NUM_WORKERS = 1;
-	unsigned int NUM_WORKERS = 0;
 	const unsigned int MAX_DEQUE_SIZE = 100;
 	volatile bool SHUTDOWN;
-	pthread_mutex_t FINISH_MUTEX;
-	pthread_t *thread = (pthread_t *)malloc(sizeof(pthread_t) * MAX_WORKERS);
-	static pthread_key_t THREAD_KEY;
 	volatile unsigned int FINISH_COUNTER;
-	static pthread_mutex_t *DEQUE_MUTEX = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * MAX_WORKERS);
-	static pthread_once_t THREAD_KEY_ONCE = PTHREAD_ONCE_INIT;
+	unsigned int NUM_WORKERS = 0;
+	pthread_key_t THREAD_KEY;
+	pthread_once_t THREAD_KEY_ONCE = PTHREAD_ONCE_INIT;
+	pthread_mutex_t FINISH_MUTEX = PTHREAD_MUTEX_INITIALIZER;
+	pthread_t *thread = NULL;
+	pthread_mutex_t *DEQUE_MUTEX = NULL;
 
 	struct Deque {
 		volatile unsigned int head;
@@ -40,7 +39,7 @@ namespace cotton {
 		void push_to_deque(std::function<void()> &&lambda);
 	};
 
-	static Deque *DEQUE_ARRAY = new Deque[MAX_WORKERS];
+	Deque *DEQUE_ARRAY = NULL;
 	
 	void lib_key_init();
 	unsigned int get_threadID();

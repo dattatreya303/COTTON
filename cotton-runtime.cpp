@@ -101,7 +101,7 @@ Gives the calling thread's ID used to access the per thread deque data structure
 @return Thread ID of the calling thread 
 **/
 unsigned int cotton::get_threadID() {
-	return *(int *)(pthread_getspecific(cotton::THREAD_KEY));
+	return *(unsigned int *)(pthread_getspecific(cotton::THREAD_KEY));
 }
 
 /**
@@ -112,7 +112,6 @@ Encapsulates the work that a thread does once spawing which includes setting the
 **/
 void *cotton::worker_routine(void *args) {
 	unsigned int thread_id = *(unsigned int *)args;
-
 	if( pthread_setspecific(cotton::THREAD_KEY, &thread_id) ) {
 		std::cout << "ERROR!! pthread_setspecific() in worker_routine() " << std::endl;
 	}
@@ -143,7 +142,7 @@ Pushes a task encapsulated in a lambda function into the calling thread's data s
 @return Void
 **/
 void cotton::push_task_to_runtime(std::function<void()> &&lambda) {
-	int current_thread_id = cotton::get_threadID();
+	unsigned int current_thread_id = cotton::get_threadID();
 	cotton::DEQUE_ARRAY[ current_thread_id ].push_to_deque( std::move(lambda) );
 }
 
@@ -155,17 +154,16 @@ It first checks in the calling thread deque data structure and if if does not fi
 @return Task encapsulated in a lambda function 
 **/
 std::function<void()> cotton::grab_task_from_runtime() {
-	int current_thread_id = cotton::get_threadID();
-	
+	unsigned int current_thread_id = cotton::get_threadID();
 	
 	pthread_mutex_lock( &cotton::DEQUE_MUTEX[ current_thread_id ] );
 	auto grabbed_task = cotton::DEQUE_ARRAY[ current_thread_id ].pop_from_deque();
 	pthread_mutex_unlock( &cotton::DEQUE_MUTEX[ current_thread_id ] );
-
+	
 	if( grabbed_task == NULL ) {
-		int random_deque_id = current_thread_id;
+		unsigned int random_deque_id = current_thread_id;
 		while( random_deque_id == current_thread_id ) {
-			random_deque_id = rand() % cotton::MAX_DEQUE_SIZE;
+			random_deque_id = rand() % cotton::NUM_WORKERS;
 		}
 		pthread_mutex_lock( &cotton::DEQUE_MUTEX[ random_deque_id ] );
 		grabbed_task = cotton::DEQUE_ARRAY[ random_deque_id ].steal_from_deque();
@@ -182,23 +180,32 @@ Spawns all the required threads after initializing the pthread key and setting t
 **/
 void cotton::init_runtime() {
 
+	cotton::NUM_WORKERS = cotton::thread_pool_size();
+
 	if(pthread_once(&cotton::THREAD_KEY_ONCE, cotton::lib_key_init)) {
 		std::cout << "ERROR!! init_runtime() key init" << std::endl;
-	}
+	}	
 
-	unsigned int main_thread_id = 0;
-	if( pthread_setspecific(cotton::THREAD_KEY, &main_thread_id) ) {
+	unsigned int *args = (unsigned int *)malloc( sizeof(unsigned int) * cotton::NUM_WORKERS );
+	
+	*(args) = 0;
+	if( pthread_setspecific(cotton::THREAD_KEY, args) ) {
 		std::cout << "ERROR!! pthread_setspecific() in init_runtime()" << std::endl;
 	}
 
-	cotton::NUM_WORKERS = cotton::thread_pool_size();
-
+	cotton::DEQUE_ARRAY = new cotton::Deque[cotton::NUM_WORKERS];	
+	cotton::thread = (pthread_t *)malloc(sizeof(pthread_t) * cotton::NUM_WORKERS);
+	cotton::DEQUE_MUTEX = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * cotton::NUM_WORKERS);
+	for(unsigned int i = 0; i < cotton::NUM_WORKERS; i++) {
+		cotton::DEQUE_MUTEX[i] = PTHREAD_MUTEX_INITIALIZER;
+	}
+	
 	cotton::SHUTDOWN = false;
-	unsigned int *args = (unsigned int *)malloc( sizeof(unsigned int) * cotton::NUM_WORKERS );
 	for(unsigned int i = 1; i < cotton::NUM_WORKERS; i++) {
-		*(args+i) = i;
+		*(args + i) = i;
 		int status = pthread_create(&cotton::thread[i], NULL, cotton::worker_routine, args+i);
 	}
+
 }
 
 /**
@@ -229,7 +236,7 @@ Keeps spinning until the calling thread cannot find any task so that we can avoi
 @return Void
 **/
 void cotton::end_finish() {
-	while( cotton::FINISH_COUNTER != 0 ) {
+	while( cotton::FINISH_COUNTER != 0 ) {		
 		cotton::find_and_execute_task();
 	}
 }

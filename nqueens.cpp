@@ -126,7 +126,7 @@ long get_usecs (void)
 
 int main(int argc, char* argv[])
 {
-  cotton::init_runtime();
+  cotton::init_runtime();  
   int n = 11;
   int i, j;
      
@@ -140,7 +140,7 @@ int main(int argc, char* argv[])
   long start = get_usecs();
 
   cotton::start_finish();
-  nqueens_kernel(a, 0, n);  
+  nqueens_kernel(a, 0, n);
   cotton::end_finish();
 
   // Timing for parallel run
