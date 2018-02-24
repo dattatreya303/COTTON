@@ -6,11 +6,12 @@
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>
+#include <cassert>
+#include <unistd.h>
 #include <iostream>
 #include <pthread.h>
 #include <stdexcept>
 #include <functional>
-#include <cassert>
 
 namespace cotton {
 	void init_runtime();

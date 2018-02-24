@@ -13,11 +13,15 @@ Pushes the task to the deque data structure after checking boundary conditions
 @return Void
 **/
 void cotton::Deque::push_to_deque(std::function<void()> &&lambda) {
-	if( (tail + 1) % cotton::MAX_DEQUE_SIZE == head ) {
+	int tail_next_pos = ( tail + 1 < cotton::MAX_DEQUE_SIZE ) ? ( tail + 1) : ( (tail + 1) % cotton::MAX_DEQUE_SIZE ); 
+	if( tail_next_pos == head ) {
+		cotton::free_all();
 		throw std::out_of_range("Number of tasks exceeded deque size!");
 	}
 	task_deque[tail] = lambda;
-	tail = (tail + 1) % cotton::MAX_DEQUE_SIZE;
+	tail++;
+	if( tail == cotton::MAX_DEQUE_SIZE )
+		tail = tail % cotton::MAX_DEQUE_SIZE;
 }
 
 /**
@@ -63,7 +67,9 @@ std::function<void()> cotton::Deque::steal_from_deque() {
 	auto stolen_task = task_deque[head];
 	assert((stolen_task != NULL));
 
-	head = ( head + 1 ) % cotton::MAX_DEQUE_SIZE;
+	head++;
+	if( head == cotton::MAX_DEQUE_SIZE )
+		head = head % cotton::MAX_DEQUE_SIZE;
 	
 	return stolen_task;
 }
@@ -240,6 +246,17 @@ void cotton::end_finish() {
 }
 
 /**
+Call free() on everything allocated on heap.
+
+@return Void
+**/
+void cotton::free_all() {
+	free(cotton::thread);
+	free(cotton::DEQUE_MUTEX);
+	delete[] cotton::DEQUE_ARRAY;
+} 
+
+/**
 Waits till all the threads that have been spawed have finished executing the tasks. Frees all the runtime allocated variables for better memory management.
 
 @return Void
@@ -249,7 +266,6 @@ void cotton::finalize_runtime() {
 	for(int i = 1; i < cotton::NUM_WORKERS; i++) {
 		pthread_join(cotton::thread[i], NULL);
 	}
-	free(cotton::thread);
-	free(cotton::DEQUE_MUTEX);
-	delete[] cotton::DEQUE_ARRAY;
+
+	cotton::free_all();
 }

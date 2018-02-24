@@ -8,6 +8,7 @@
 
 namespace cotton {
 	
+	#define CACHE_LINE_SIZE 64
 	const unsigned int DEFAULT_NUM_WORKERS = 1;
 	const unsigned int MAX_DEQUE_SIZE = 100;
 	volatile bool SHUTDOWN;
@@ -23,14 +24,16 @@ namespace cotton {
 		volatile unsigned int head;
 		volatile unsigned int tail;
 		std::function<void()> *task_deque;
+		int _padding[ (CACHE_LINE_SIZE - 16) >> 2 ];
 
 		Deque() {
+			memset( _padding, 0, sizeof(_padding) );
 			head = 0; tail = 0;
 			task_deque = (std::function<void()> *)malloc(sizeof(std::function<void()>) * MAX_DEQUE_SIZE);
 		}
 
 		~Deque() {
-			free(task_deque);
+			free( (void *)task_deque );
 		}
 
 		bool isEmpty();
@@ -41,6 +44,7 @@ namespace cotton {
 
 	Deque *DEQUE_ARRAY = NULL;
 	
+	void free_all();
 	void lib_key_init();
 	unsigned int get_threadID();
 	void find_and_execute_task();
