@@ -10,6 +10,7 @@
 #include <pthread.h>
 #include <stdexcept>
 #include <functional>
+#include <cassert>
 
 namespace cotton {
 	void init_runtime();
