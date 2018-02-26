@@ -5,10 +5,10 @@ RUNTIMEFLAGS = cotton-runtime.o
 all: nqueens
 
 nqueens: nqueens.cpp cotton-runtime.o
-	g++ -g -O3 -o nqueens nqueens.cpp ${CPPFLAGS} ${LDFLAGS} ${RUNTIMEFLAGS}
+	g++ -g -o nqueens nqueens.cpp ${CPPFLAGS} ${LDFLAGS} ${RUNTIMEFLAGS}
 
 cotton-runtime.o: cotton-runtime.cpp cotton-runtime.h cotton.h
-	g++ -c -O3 cotton-runtime.cpp ${CPPFLAGS} ${LDFLAGS}
+	g++ -c cotton-runtime.cpp ${CPPFLAGS} ${LDFLAGS}
 
 clean:
 	-rm -f cotton-runtime.o nqueens

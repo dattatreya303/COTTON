@@ -12,13 +12,13 @@ Pushes the task to the deque data structure after checking boundary conditions
 @param lambda Takes the task encapsulated in a lamda function
 @return Void
 **/
-void cotton::Deque::push_to_deque(std::function<void()> &&lambda) {
+void cotton::Deque::push_to_deque(volatile void *task) {
 	int tail_next_pos = ( tail + 1 < cotton::MAX_DEQUE_SIZE ) ? ( tail + 1) : ( (tail + 1) % cotton::MAX_DEQUE_SIZE ); 
 	if( tail_next_pos == head ) {
 		cotton::free_all();
 		throw std::out_of_range("Number of tasks exceeded deque size!");
 	}
-	task_deque[tail] = lambda;
+	task_deque[tail] = task;
 	tail++;
 	if( tail == cotton::MAX_DEQUE_SIZE )
 		tail = tail % cotton::MAX_DEQUE_SIZE;
@@ -41,7 +41,7 @@ Pops the task from the calling thread's deque data structure and checks for boun
 
 @return Task encapsulated in a lambda function upon success otherwise NULL
 **/
-std::function<void()> cotton::Deque::pop_from_deque() {
+volatile void* cotton::Deque::pop_from_deque() {
 	if( isEmpty() ) {
 		return NULL;
 	}
@@ -59,19 +59,19 @@ Steals the task from the victim thread's deque data structure and checks for bou
 
 @return Task encapsulated in a lambda function upon success otherwise NULL
 **/
-std::function<void()> cotton::Deque::steal_from_deque() {
+volatile void* cotton::Deque::steal_from_deque() {
 	if( isEmpty() ) {
 		return NULL;
 	}
 
-	auto stolen_task = task_deque[head];
-	assert((stolen_task != NULL));
+	volatile void *stolen_task_ptr = task_deque[head];
+	assert((stolen_task_ptr != NULL));
 
 	head++;
 	if( head == cotton::MAX_DEQUE_SIZE )
 		head = head % cotton::MAX_DEQUE_SIZE;
 	
-	return stolen_task;
+	return stolen_task_ptr;
 }
 
 /**
@@ -120,10 +120,9 @@ Encapsulates the work that a thread does once spawing which includes setting the
 @param args Contains the argument related to the ID of the calling thread
 @return Void
 **/
-void *cotton::worker_routine(void *args) {
+void* cotton::worker_routine(void *args) {
 	unsigned int thread_id = *(unsigned int *)args;
 	assert((pthread_setspecific(cotton::THREAD_KEY, &thread_id) == 0));
-
 	while( !cotton::SHUTDOWN ) {
 		cotton::find_and_execute_task();
 	}
@@ -135,8 +134,9 @@ Finds a task from the per thread deque data structures, executes it and finally 
 @return Void
 **/
 void cotton::find_and_execute_task() {
-	auto task = cotton::grab_task_from_runtime();
-	if( task != NULL ) {
+	volatile void * task_ptr = cotton::grab_task_from_runtime();
+	if( task_ptr != NULL ) {
+		std::function<void()> task = *(std::function<void()> *)task_ptr;
 		task();
 		assert((pthread_mutex_lock(&cotton::FINISH_MUTEX) == 0));
 		cotton::FINISH_COUNTER--;
@@ -149,9 +149,9 @@ Pushes a task encapsulated in a lambda function into the calling thread's data s
 
 @return Void
 **/
-void cotton::push_task_to_runtime(std::function<void()> &&lambda) {
+void cotton::push_task_to_runtime(volatile void *task) {
 	unsigned int current_thread_id = cotton::get_threadID();
-	cotton::DEQUE_ARRAY[ current_thread_id ].push_to_deque( std::move(lambda) );
+	cotton::DEQUE_ARRAY[ current_thread_id ].push_to_deque( task );
 }
 
 /**
@@ -161,24 +161,24 @@ It first checks in the calling thread deque data structure and if if does not fi
 
 @return Task encapsulated in a lambda function 
 **/
-std::function<void()> cotton::grab_task_from_runtime() {
+volatile void* cotton::grab_task_from_runtime() {
 	unsigned int current_thread_id = cotton::get_threadID();
 	
 	assert((pthread_mutex_lock( &cotton::DEQUE_MUTEX[ current_thread_id ] ) == 0));
-	auto grabbed_task = cotton::DEQUE_ARRAY[ current_thread_id ].pop_from_deque();
+	volatile void *grabbed_task_ptr = cotton::DEQUE_ARRAY[ current_thread_id ].pop_from_deque();
 	assert((pthread_mutex_unlock( &cotton::DEQUE_MUTEX[ current_thread_id ] ) == 0));
 	
-	if( grabbed_task == NULL ) {
+	if( grabbed_task_ptr == NULL ) {
 		unsigned int random_deque_id = current_thread_id;
 		while( random_deque_id == current_thread_id ) {
 			random_deque_id = rand() % cotton::NUM_WORKERS;
 		}
 		assert((pthread_mutex_lock( &cotton::DEQUE_MUTEX[ random_deque_id ] ) == 0));
-		grabbed_task = cotton::DEQUE_ARRAY[ random_deque_id ].steal_from_deque();
+		grabbed_task_ptr = cotton::DEQUE_ARRAY[ random_deque_id ].steal_from_deque();
 		assert((pthread_mutex_unlock( &cotton::DEQUE_MUTEX[ random_deque_id ] ) == 0));
 	}
 
-	return grabbed_task;
+	return grabbed_task_ptr;
 }
 
 /**
@@ -219,10 +219,11 @@ Creates the task and pushes it to the calling thread's deque data structure and 
 @return Void
 **/
 void cotton::async(std::function<void()> &&lambda) {
+	volatile std::function<void()> *task_ptr = new std::function<void()>(lambda);
 	assert((pthread_mutex_lock(&cotton::FINISH_MUTEX) == 0));
 	cotton::FINISH_COUNTER++;
 	assert((pthread_mutex_unlock(&cotton::FINISH_MUTEX) == 0));
-	cotton::push_task_to_runtime( std::move(lambda) );
+	cotton::push_task_to_runtime( task_ptr );
 }
 
 /**
