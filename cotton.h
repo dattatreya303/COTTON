@@ -6,6 +6,8 @@
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>
+#include <cassert>
+#include <unistd.h>
 #include <iostream>
 #include <pthread.h>
 #include <stdexcept>
