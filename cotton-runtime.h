@@ -41,9 +41,9 @@ namespace cotton {
 		}
 
 		bool isEmpty();
-		volatile void* pop_from_deque();
-		volatile void* steal_from_deque();
-		void push_to_deque(volatile void *task);
+		void* pop_from_deque();
+		void* steal_from_deque();
+		void push_to_deque(void *task);
 	};
 
 	Deque *DEQUE_ARRAY = NULL;
@@ -54,6 +54,6 @@ namespace cotton {
 	void find_and_execute_task();
 	unsigned int thread_pool_size();
 	void* worker_routine(void *args);
-	volatile void* grab_task_from_runtime();
-	void push_task_to_runtime(volatile void *task);
+	void* grab_task_from_runtime();
+	void push_task_to_runtime(void *task);
 }
