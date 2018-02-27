@@ -82,13 +82,19 @@ Wrapper to get the value mentioned in the environment variable COTTON_WORKERS
 unsigned int cotton::thread_pool_size() {
 	char * envData = std::getenv("COTTON_WORKERS");
 	unsigned int numWorkers = cotton::DEFAULT_NUM_WORKERS;
-
-	if(envData != '\0'){
-		numWorkers = (unsigned int)atoi(std::getenv("COTTON_WORKERS"));
+	
+	if( envData != NULL ) {
+		numWorkers = strtol(envData, NULL, 10);
+		if( numWorkers == 0 ) {
+			printf("COTTON_WORKERS only accepts positive integers greater.\n");
+			printf("There has to be at least 1 worker.\n");
+			printf("Using default number of workers (= %d) for this run ...\n", cotton::DEFAULT_NUM_WORKERS);
+			numWorkers = cotton::DEFAULT_NUM_WORKERS;
+		}
 	}
-	else{
-		printf("COTTON_WORKERS environment variable not found.\n");
-		printf("Using default number of workers (= %d).\n", cotton::DEFAULT_NUM_WORKERS);
+	else {
+		printf("COTTON_WORKERS environment variable not set.\n");
+		printf("Using default number of workers (= %d) for this run ...\n", cotton::DEFAULT_NUM_WORKERS);
 	}
 	
 	return numWorkers;
