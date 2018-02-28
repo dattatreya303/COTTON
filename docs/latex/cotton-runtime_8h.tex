@@ -14,14 +14,13 @@ struct \mbox{\hyperlink{structcotton_1_1Deque}{cotton\+::\+Deque}}
 \subsection*{Macros}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{cotton-runtime_8h_a7553a3b6420fd55ba1caaf53d271f1f8}\label{cotton-runtime_8h_a7553a3b6420fd55ba1caaf53d271f1f8}} 
-\#define {\bfseries M\+A\+X\+\_\+\+W\+O\+R\+K\+E\+RS}~100
-\item 
-\mbox{\Hypertarget{cotton-runtime_8h_a3711c2164495f38abd986d3d893c1c3c}\label{cotton-runtime_8h_a3711c2164495f38abd986d3d893c1c3c}} 
-\#define {\bfseries M\+A\+X\+\_\+\+D\+E\+Q\+U\+E\+\_\+\+S\+I\+ZE}~100
+\mbox{\Hypertarget{cotton-runtime_8h_af89f60b07247176687889ade776c8e10}\label{cotton-runtime_8h_af89f60b07247176687889ade776c8e10}} 
+\#define {\bfseries C\+A\+C\+H\+E\+\_\+\+L\+I\+N\+E\+\_\+\+S\+I\+ZE}~64
 \end{DoxyCompactItemize}
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{cotton-runtime_8h_ad169fe95f5f03bdfa569dd365dde6c12}{cotton\+::free\+\_\+all}} ()
 \item 
 void \mbox{\hyperlink{cotton-runtime_8h_a4ea9036584fa3bd86fe8626dc05d295f}{cotton\+::lib\+\_\+key\+\_\+init}} ()
 \item 
@@ -29,13 +28,49 @@ unsigned int \mbox{\hyperlink{cotton-runtime_8h_ab1ebe1f6821a54e7c4911c22acebff8
 \item 
 void \mbox{\hyperlink{cotton-runtime_8h_af22caee9434a7e06a09b2f9a0417c1eb}{cotton\+::find\+\_\+and\+\_\+execute\+\_\+task}} ()
 \item 
+void $\ast$ \mbox{\hyperlink{cotton-runtime_8h_a1cae25b77bd884fcdcf2532663056d22}{cotton\+::grab\+\_\+task\+\_\+from\+\_\+runtime}} ()
+\item 
 unsigned int \mbox{\hyperlink{cotton-runtime_8h_a0b32dd3b6a3d126e107d5c77ec1f4cc3}{cotton\+::thread\+\_\+pool\+\_\+size}} ()
 \item 
 void $\ast$ \mbox{\hyperlink{cotton-runtime_8h_a361c34063ecb68cf02d417074decb12b}{cotton\+::worker\+\_\+routine}} (void $\ast$args)
 \item 
-std\+::function$<$ void()$>$ \mbox{\hyperlink{cotton-runtime_8h_afaca8aa46092d066bf1d996ae09fb83d}{cotton\+::grab\+\_\+task\+\_\+from\+\_\+runtime}} ()
+void \mbox{\hyperlink{cotton-runtime_8h_a803285410d295a5f32238ad2dfc241a5}{cotton\+::push\+\_\+task\+\_\+to\+\_\+runtime}} (void $\ast$task)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
 \item 
-void \mbox{\hyperlink{cotton-runtime_8h_a2b2001813bd051cd1ff41a75989667c0}{cotton\+::push\+\_\+task\+\_\+to\+\_\+runtime}} (std\+::function$<$ void()$>$ \&\&lambda)
+\mbox{\Hypertarget{cotton-runtime_8h_ad72043de8ba79ff3385abd67fd1b15bf}\label{cotton-runtime_8h_ad72043de8ba79ff3385abd67fd1b15bf}} 
+volatile bool {\bfseries cotton\+::\+S\+H\+U\+T\+D\+O\+WN}
+\item 
+\mbox{\Hypertarget{cotton-runtime_8h_ae1c243496d4cac35fb6d8fb6be14b0f3}\label{cotton-runtime_8h_ae1c243496d4cac35fb6d8fb6be14b0f3}} 
+pthread\+\_\+t $\ast$ {\bfseries cotton\+::thread} = N\+U\+LL
+\item 
+\mbox{\Hypertarget{cotton-runtime_8h_a41bafde742c3ac2e3f360be9a8b2926d}\label{cotton-runtime_8h_a41bafde742c3ac2e3f360be9a8b2926d}} 
+pthread\+\_\+key\+\_\+t {\bfseries cotton\+::\+T\+H\+R\+E\+A\+D\+\_\+\+K\+EY}
+\item 
+\mbox{\Hypertarget{cotton-runtime_8h_a0d692d5b7c9fbd1d4999ed8270ebcce0}\label{cotton-runtime_8h_a0d692d5b7c9fbd1d4999ed8270ebcce0}} 
+unsigned int {\bfseries cotton\+::\+N\+U\+M\+\_\+\+W\+O\+R\+K\+E\+RS} = 0
+\item 
+\mbox{\Hypertarget{cotton-runtime_8h_a71daeb136715fb167bda82ac84373091}\label{cotton-runtime_8h_a71daeb136715fb167bda82ac84373091}} 
+pthread\+\_\+mutex\+\_\+t $\ast$ {\bfseries cotton\+::\+D\+E\+Q\+U\+E\+\_\+\+M\+U\+T\+EX} = N\+U\+LL
+\item 
+\mbox{\Hypertarget{cotton-runtime_8h_a8c3fa2e0febd6194c6c2e1b8274e3b6a}\label{cotton-runtime_8h_a8c3fa2e0febd6194c6c2e1b8274e3b6a}} 
+volatile unsigned int {\bfseries cotton\+::\+F\+I\+N\+I\+S\+H\+\_\+\+C\+O\+U\+N\+T\+ER}
+\item 
+\mbox{\Hypertarget{cotton-runtime_8h_abc469e68d18d644b538f6f16335fb5c4}\label{cotton-runtime_8h_abc469e68d18d644b538f6f16335fb5c4}} 
+const unsigned int {\bfseries cotton\+::\+M\+A\+X\+\_\+\+D\+E\+Q\+U\+E\+\_\+\+S\+I\+ZE} = 100
+\item 
+\mbox{\Hypertarget{cotton-runtime_8h_a261cb084089447eb9c2bab5c95891795}\label{cotton-runtime_8h_a261cb084089447eb9c2bab5c95891795}} 
+const unsigned int {\bfseries cotton\+::\+D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+W\+O\+R\+K\+E\+RS} = 1
+\item 
+\mbox{\Hypertarget{cotton-runtime_8h_a49aaf0b0bc093f68bcc20907ff338827}\label{cotton-runtime_8h_a49aaf0b0bc093f68bcc20907ff338827}} 
+pthread\+\_\+once\+\_\+t {\bfseries cotton\+::\+T\+H\+R\+E\+A\+D\+\_\+\+K\+E\+Y\+\_\+\+O\+N\+CE} = P\+T\+H\+R\+E\+A\+D\+\_\+\+O\+N\+C\+E\+\_\+\+I\+N\+IT
+\item 
+\mbox{\Hypertarget{cotton-runtime_8h_a0fa66e316877ba57e881d9c4fd193765}\label{cotton-runtime_8h_a0fa66e316877ba57e881d9c4fd193765}} 
+pthread\+\_\+mutex\+\_\+t {\bfseries cotton\+::\+F\+I\+N\+I\+S\+H\+\_\+\+M\+U\+T\+EX} = P\+T\+H\+R\+E\+A\+D\+\_\+\+M\+U\+T\+E\+X\+\_\+\+I\+N\+I\+T\+I\+A\+L\+I\+Z\+ER
+\item 
+\mbox{\Hypertarget{cotton-runtime_8h_a17e2506c45982338f909158a75592bd6}\label{cotton-runtime_8h_a17e2506c45982338f909158a75592bd6}} 
+Deque $\ast$ {\bfseries cotton\+::\+D\+E\+Q\+U\+E\+\_\+\+A\+R\+R\+AY} = N\+U\+LL
 \end{DoxyCompactItemize}
 
 
@@ -56,6 +91,17 @@ Finds a task from the per thread deque data structures, executes it and finally 
 \begin{DoxyReturn}{Returns}
 Void 
 \end{DoxyReturn}
+\mbox{\Hypertarget{cotton-runtime_8h_file_ad169fe95f5f03bdfa569dd365dde6c12}\label{cotton-runtime_8h_file_ad169fe95f5f03bdfa569dd365dde6c12}} 
+\index{cotton-\/runtime.\+h@{cotton-\/runtime.\+h}!free\+\_\+all@{free\+\_\+all}}
+\index{free\+\_\+all@{free\+\_\+all}!cotton-\/runtime.\+h@{cotton-\/runtime.\+h}}
+\subsubsection{\texorpdfstring{free\+\_\+all()}{free\_all()}}
+{\footnotesize\ttfamily void cotton\+::free\+\_\+all (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Call free() on everything allocated on heap.
+
+\begin{DoxyReturn}{Returns}
+Void 
+\end{DoxyReturn}
 \mbox{\Hypertarget{cotton-runtime_8h_file_ab1ebe1f6821a54e7c4911c22acebff8a}\label{cotton-runtime_8h_file_ab1ebe1f6821a54e7c4911c22acebff8a}} 
 \index{cotton-\/runtime.\+h@{cotton-\/runtime.\+h}!get\+\_\+thread\+ID@{get\+\_\+thread\+ID}}
 \index{get\+\_\+thread\+ID@{get\+\_\+thread\+ID}!cotton-\/runtime.\+h@{cotton-\/runtime.\+h}}
@@ -67,11 +113,11 @@ Gives the calling thread\textquotesingle{}s ID used to access the per thread deq
 \begin{DoxyReturn}{Returns}
 Thread ID of the calling thread 
 \end{DoxyReturn}
-\mbox{\Hypertarget{cotton-runtime_8h_file_afaca8aa46092d066bf1d996ae09fb83d}\label{cotton-runtime_8h_file_afaca8aa46092d066bf1d996ae09fb83d}} 
+\mbox{\Hypertarget{cotton-runtime_8h_file_a1cae25b77bd884fcdcf2532663056d22}\label{cotton-runtime_8h_file_a1cae25b77bd884fcdcf2532663056d22}} 
 \index{cotton-\/runtime.\+h@{cotton-\/runtime.\+h}!grab\+\_\+task\+\_\+from\+\_\+runtime@{grab\+\_\+task\+\_\+from\+\_\+runtime}}
 \index{grab\+\_\+task\+\_\+from\+\_\+runtime@{grab\+\_\+task\+\_\+from\+\_\+runtime}!cotton-\/runtime.\+h@{cotton-\/runtime.\+h}}
 \subsubsection{\texorpdfstring{grab\+\_\+task\+\_\+from\+\_\+runtime()}{grab\_task\_from\_runtime()}}
-{\footnotesize\ttfamily std\+::function$<$ void()$>$ cotton\+::grab\+\_\+task\+\_\+from\+\_\+runtime (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void $\ast$ cotton\+::grab\+\_\+task\+\_\+from\+\_\+runtime (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
 Pops or steals a task encapsulated as a lambda function from the caller or the victim thread\textquotesingle{}s deque data structure.
 
@@ -91,11 +137,11 @@ Wrapper to initialize the value of the pthread key variable with proper error ch
 \begin{DoxyReturn}{Returns}
 Void 
 \end{DoxyReturn}
-\mbox{\Hypertarget{cotton-runtime_8h_file_a2b2001813bd051cd1ff41a75989667c0}\label{cotton-runtime_8h_file_a2b2001813bd051cd1ff41a75989667c0}} 
+\mbox{\Hypertarget{cotton-runtime_8h_file_a803285410d295a5f32238ad2dfc241a5}\label{cotton-runtime_8h_file_a803285410d295a5f32238ad2dfc241a5}} 
 \index{cotton-\/runtime.\+h@{cotton-\/runtime.\+h}!push\+\_\+task\+\_\+to\+\_\+runtime@{push\+\_\+task\+\_\+to\+\_\+runtime}}
 \index{push\+\_\+task\+\_\+to\+\_\+runtime@{push\+\_\+task\+\_\+to\+\_\+runtime}!cotton-\/runtime.\+h@{cotton-\/runtime.\+h}}
 \subsubsection{\texorpdfstring{push\+\_\+task\+\_\+to\+\_\+runtime()}{push\_task\_to\_runtime()}}
-{\footnotesize\ttfamily void cotton\+::push\+\_\+task\+\_\+to\+\_\+runtime (\begin{DoxyParamCaption}\item[{std\+::function$<$ void()$>$ \&\&}]{lambda }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void cotton\+::push\+\_\+task\+\_\+to\+\_\+runtime (\begin{DoxyParamCaption}\item[{void $\ast$}]{task }\end{DoxyParamCaption})}
 
 Pushes a task encapsulated in a lambda function into the calling thread\textquotesingle{}s data structure
 
@@ -111,7 +157,7 @@ Void
 Wrapper to get the value mentioned in the environment variable C\+O\+T\+T\+O\+N\+\_\+\+W\+O\+R\+K\+E\+RS
 
 \begin{DoxyReturn}{Returns}
-Number of threads to use at max 
+Number of threads to use at max (default = 1) 
 \end{DoxyReturn}
 \mbox{\Hypertarget{cotton-runtime_8h_file_a361c34063ecb68cf02d417074decb12b}\label{cotton-runtime_8h_file_a361c34063ecb68cf02d417074decb12b}} 
 \index{cotton-\/runtime.\+h@{cotton-\/runtime.\+h}!worker\+\_\+routine@{worker\+\_\+routine}}

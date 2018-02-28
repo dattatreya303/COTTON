@@ -74,6 +74,8 @@ $(function() {
 <div class="textblock"><code>#include &lt;cstdio&gt;</code><br />
 <code>#include &lt;cstring&gt;</code><br />
 <code>#include &lt;cstdlib&gt;</code><br />
+<code>#include &lt;cassert&gt;</code><br />
+<code>#include &lt;unistd.h&gt;</code><br />
 <code>#include &lt;iostream&gt;</code><br />
 <code>#include &lt;pthread.h&gt;</code><br />
 <code>#include &lt;stdexcept&gt;</code><br />
@@ -85,10 +87,10 @@ $(function() {
 Functions</h2></td></tr>
 <tr class="memitem:ae391d31cf35efbf9e644206001d7fc6d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cotton_8h.html#ae391d31cf35efbf9e644206001d7fc6d">cotton::init_runtime</a> ()</td></tr>
 <tr class="separator:ae391d31cf35efbf9e644206001d7fc6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3a7e86503c4fd0c48774e2ffc43d947a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cotton_8h.html#a3a7e86503c4fd0c48774e2ffc43d947a">cotton::async</a> (std::function&lt; void()&gt; &amp;&amp;lambda)</td></tr>
-<tr class="separator:a3a7e86503c4fd0c48774e2ffc43d947a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aae085573bf6951565449c429ac59c43c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cotton_8h.html#aae085573bf6951565449c429ac59c43c">cotton::start_finish</a> ()</td></tr>
 <tr class="separator:aae085573bf6951565449c429ac59c43c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a7e86503c4fd0c48774e2ffc43d947a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cotton_8h.html#a3a7e86503c4fd0c48774e2ffc43d947a">cotton::async</a> (std::function&lt; void()&gt; &amp;&amp;lambda)</td></tr>
+<tr class="separator:a3a7e86503c4fd0c48774e2ffc43d947a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab413e05e91ff6e4918aa9aa63d52b2ff"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cotton_8h.html#ab413e05e91ff6e4918aa9aa63d52b2ff">cotton::end_finish</a> ()</td></tr>
 <tr class="separator:ab413e05e91ff6e4918aa9aa63d52b2ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3061b2929300562580e4bf1416372c3f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cotton_8h.html#a3061b2929300562580e4bf1416372c3f">cotton::finalize_runtime</a> ()</td></tr>
@@ -156,7 +158,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Waits till all the threads that have been spawed have finished executing the tasks</p>
+<p>Waits till all the threads that have been spawed have finished executing the tasks. Frees all the runtime allocated variables for better memory management.</p>
 <dl class="section return"><dt>Returns</dt><dd>Void </dd></dl>
 
 </div>

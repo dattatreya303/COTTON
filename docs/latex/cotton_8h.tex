@@ -8,6 +8,8 @@ Header for C\+O\+T\+T\+ON interface.
 {\ttfamily \#include $<$cstdio$>$}\newline
 {\ttfamily \#include $<$cstring$>$}\newline
 {\ttfamily \#include $<$cstdlib$>$}\newline
+{\ttfamily \#include $<$cassert$>$}\newline
+{\ttfamily \#include $<$unistd.\+h$>$}\newline
 {\ttfamily \#include $<$iostream$>$}\newline
 {\ttfamily \#include $<$pthread.\+h$>$}\newline
 {\ttfamily \#include $<$stdexcept$>$}\newline
@@ -17,9 +19,9 @@ Header for C\+O\+T\+T\+ON interface.
 \item 
 void \mbox{\hyperlink{cotton_8h_ae391d31cf35efbf9e644206001d7fc6d}{cotton\+::init\+\_\+runtime}} ()
 \item 
-void \mbox{\hyperlink{cotton_8h_a3a7e86503c4fd0c48774e2ffc43d947a}{cotton\+::async}} (std\+::function$<$ void()$>$ \&\&lambda)
-\item 
 void \mbox{\hyperlink{cotton_8h_aae085573bf6951565449c429ac59c43c}{cotton\+::start\+\_\+finish}} ()
+\item 
+void \mbox{\hyperlink{cotton_8h_a3a7e86503c4fd0c48774e2ffc43d947a}{cotton\+::async}} (std\+::function$<$ void()$>$ \&\&lambda)
 \item 
 void \mbox{\hyperlink{cotton_8h_ab413e05e91ff6e4918aa9aa63d52b2ff}{cotton\+::end\+\_\+finish}} ()
 \item 
@@ -66,7 +68,7 @@ Void
 \subsubsection{\texorpdfstring{finalize\+\_\+runtime()}{finalize\_runtime()}}
 {\footnotesize\ttfamily void cotton\+::finalize\+\_\+runtime (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-Waits till all the threads that have been spawed have finished executing the tasks
+Waits till all the threads that have been spawed have finished executing the tasks. Frees all the runtime allocated variables for better memory management.
 
 \begin{DoxyReturn}{Returns}
 Void 
