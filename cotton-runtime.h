@@ -26,7 +26,7 @@ namespace cotton {
 		volatile unsigned int tail;
 		volatile void* task_deque[MAX_DEQUE_SIZE];
 
-		// The size of object here is already momre than the CACHE_LINE_SIZE (64 bytes). How will padding help?
+		// The size of object here is already more than the CACHE_LINE_SIZE (64 bytes). How will padding help?
 		// memset() padding with zeroes in constructor.
 		// int _padding[ (CACHE_LINE_SIZE - 2*sizeof(unsigned int) - MAX_DEQUE_SIZE*sizeof(void *) ) >> 2 ];
 
