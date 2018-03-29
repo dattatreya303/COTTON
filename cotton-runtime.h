@@ -1,6 +1,6 @@
 /**
 @file
-@brief Header for COTTON runtime metohds.
+@brief Header for COTTON runtime methods.
 **/
 
 #include "cotton.h"
@@ -8,13 +8,14 @@
 
 namespace cotton {
 	
+	#define NUM_THRESHOLDS 4
 	#define CACHE_LINE_SIZE 64
 	
 	volatile bool SHUTDOWN;
-	pthread_t *thread = NULL;
+	pthread_t* thread = NULL;
 	pthread_key_t THREAD_KEY;
 	unsigned int NUM_WORKERS = 0;
-	pthread_mutex_t *DEQUE_MUTEX = NULL;
+	pthread_mutex_t* DEQUE_MUTEX = NULL;
 	volatile unsigned int FINISH_COUNTER;
 	const unsigned int MAX_DEQUE_SIZE = 100;
 	const unsigned int DEFAULT_NUM_WORKERS = 1;
@@ -49,8 +50,58 @@ namespace cotton {
 		void* steal_from_deque();
 		void push_to_deque(void *task);
 	};
+	// Deque* DEQUE_ARRAY = NULL;
 
-	Deque *DEQUE_ARRAY = NULL;
+	struct Thief_node {
+		int thief_worker_id;
+		Thief_node* prev;
+		Thief_node* next;
+
+		Thief_node() {
+			thief_worker_id = -1;
+			prev = NULL;
+			next = NULL;
+		}
+
+		Thief_node(int thief_worker_id) : Thief_node() {
+			this->thief_worker_id = thief_worker_id;
+		}
+	};
+
+	struct Worker {
+		Deque* worker_deque;
+		// int size_thresholds[NUM_THRESHOLDS];
+		// int current_size_threshold_index;
+		// int current_frequency;
+		Thief_node* thief_list_head;
+
+		Worker() {
+			worker_deque = new Deque();
+			// for (int i=0; i<NUM_THRESHOLDS; i++) {
+			// 	size_thresholds[i] = (2 * MAX_DEQUE_SIZE * i) / (NUM_THRESHOLDS + 1);
+			// }
+			// current_frequency = -1;
+			thief_list_head = new Thief_node();
+		}
+
+		bool is_victim();
+		void add_thief(int thief_worker_id);
+		void free_thief_list();
+
+		~Worker() {
+			delete worker_deque;
+			free_thief_list();
+			// Thief_node* cur_node = thief_list_head;
+			// while (cur_node->next != NULL)
+			// 	cur_node = cur_node->next;
+			// while (cur_node != thief_list_head) {
+			// 	Thief_node* temp = cur_node;
+			// 	cur_node = cur_node->prev;
+			// 	free(temp);
+			// }
+		}
+	};
+	Worker* WORKER_ARRAY;
 	
 	void free_all();
 	void lib_key_init();
@@ -60,4 +111,14 @@ namespace cotton {
 	unsigned int thread_pool_size();
 	void* worker_routine(void *args);
 	void push_task_to_runtime(void *task);
+
+	// Energy efficient runtime methods.
+	void UP(int worker_id);
+	void UP(int victim_worker_id, int thief_worker_id);
+	void DOWN(int worker_id);
+
+	// Workpath sensitive
+	void begin_victim_thief_relationship(int victim_worker_id, int thief_worker_id);
+	void end_victim_thief_relationship(int victim_worker_id, int thief_worker_id);
+	void end_victim(int victim_worker_id);
 }

@@ -65,13 +65,14 @@ $(function() {
   <div class="summary">
 <a href="#nested-classes">Data Structures</a> &#124;
 <a href="#define-members">Macros</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">cotton-runtime.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Header for COTTON runtime metohds.  
+<p>Header for COTTON runtime methods.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="cotton_8h_source.html">cotton.h</a>&quot;</code><br />
 </div>
@@ -81,36 +82,222 @@ $(function() {
 Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcotton_1_1Deque.html">cotton::Deque</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcotton_1_1Thief__node.html">cotton::Thief_node</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcotton_1_1Worker.html">cotton::Worker</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a7553a3b6420fd55ba1caaf53d271f1f8"><td class="memItemLeft" align="right" valign="top"><a id="a7553a3b6420fd55ba1caaf53d271f1f8"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>MAX_WORKERS</b>&#160;&#160;&#160;100</td></tr>
-<tr class="separator:a7553a3b6420fd55ba1caaf53d271f1f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3711c2164495f38abd986d3d893c1c3c"><td class="memItemLeft" align="right" valign="top"><a id="a3711c2164495f38abd986d3d893c1c3c"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>MAX_DEQUE_SIZE</b>&#160;&#160;&#160;100</td></tr>
-<tr class="separator:a3711c2164495f38abd986d3d893c1c3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10290155a529ee095e61fe1c9e181293"><td class="memItemLeft" align="right" valign="top"><a id="a10290155a529ee095e61fe1c9e181293"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>NUM_THRESHOLDS</b>&#160;&#160;&#160;4</td></tr>
+<tr class="separator:a10290155a529ee095e61fe1c9e181293"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af89f60b07247176687889ade776c8e10"><td class="memItemLeft" align="right" valign="top"><a id="af89f60b07247176687889ade776c8e10"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>CACHE_LINE_SIZE</b>&#160;&#160;&#160;64</td></tr>
+<tr class="separator:af89f60b07247176687889ade776c8e10"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:ad169fe95f5f03bdfa569dd365dde6c12"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cotton-runtime_8h.html#ad169fe95f5f03bdfa569dd365dde6c12">cotton::free_all</a> ()</td></tr>
+<tr class="separator:ad169fe95f5f03bdfa569dd365dde6c12"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4ea9036584fa3bd86fe8626dc05d295f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cotton-runtime_8h.html#a4ea9036584fa3bd86fe8626dc05d295f">cotton::lib_key_init</a> ()</td></tr>
 <tr class="separator:a4ea9036584fa3bd86fe8626dc05d295f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab1ebe1f6821a54e7c4911c22acebff8a"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cotton-runtime_8h.html#ab1ebe1f6821a54e7c4911c22acebff8a">cotton::get_threadID</a> ()</td></tr>
 <tr class="separator:ab1ebe1f6821a54e7c4911c22acebff8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af22caee9434a7e06a09b2f9a0417c1eb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cotton-runtime_8h.html#af22caee9434a7e06a09b2f9a0417c1eb">cotton::find_and_execute_task</a> ()</td></tr>
 <tr class="separator:af22caee9434a7e06a09b2f9a0417c1eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1cae25b77bd884fcdcf2532663056d22"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cotton-runtime_8h.html#a1cae25b77bd884fcdcf2532663056d22">cotton::grab_task_from_runtime</a> ()</td></tr>
+<tr class="separator:a1cae25b77bd884fcdcf2532663056d22"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0b32dd3b6a3d126e107d5c77ec1f4cc3"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cotton-runtime_8h.html#a0b32dd3b6a3d126e107d5c77ec1f4cc3">cotton::thread_pool_size</a> ()</td></tr>
 <tr class="separator:a0b32dd3b6a3d126e107d5c77ec1f4cc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a361c34063ecb68cf02d417074decb12b"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cotton-runtime_8h.html#a361c34063ecb68cf02d417074decb12b">cotton::worker_routine</a> (void *args)</td></tr>
 <tr class="separator:a361c34063ecb68cf02d417074decb12b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afaca8aa46092d066bf1d996ae09fb83d"><td class="memItemLeft" align="right" valign="top">std::function&lt; void()&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cotton-runtime_8h.html#afaca8aa46092d066bf1d996ae09fb83d">cotton::grab_task_from_runtime</a> ()</td></tr>
-<tr class="separator:afaca8aa46092d066bf1d996ae09fb83d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b2001813bd051cd1ff41a75989667c0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cotton-runtime_8h.html#a2b2001813bd051cd1ff41a75989667c0">cotton::push_task_to_runtime</a> (std::function&lt; void()&gt; &amp;&amp;lambda)</td></tr>
-<tr class="separator:a2b2001813bd051cd1ff41a75989667c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a803285410d295a5f32238ad2dfc241a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cotton-runtime_8h.html#a803285410d295a5f32238ad2dfc241a5">cotton::push_task_to_runtime</a> (void *task)</td></tr>
+<tr class="separator:a803285410d295a5f32238ad2dfc241a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae91d8cfb1b831a971eafccb512c17a15"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cotton-runtime_8h.html#ae91d8cfb1b831a971eafccb512c17a15">cotton::UP</a> (int worker_id)</td></tr>
+<tr class="separator:ae91d8cfb1b831a971eafccb512c17a15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ed5b064cd66a53e2f01dc2c18c7e8d5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cotton-runtime_8h.html#a7ed5b064cd66a53e2f01dc2c18c7e8d5">cotton::UP</a> (int victim_worker_id, int thief_worker_id)</td></tr>
+<tr class="separator:a7ed5b064cd66a53e2f01dc2c18c7e8d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a522a9376ec51306eab1724b2a9a1cf93"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cotton-runtime_8h.html#a522a9376ec51306eab1724b2a9a1cf93">cotton::DOWN</a> (int worker_id)</td></tr>
+<tr class="separator:a522a9376ec51306eab1724b2a9a1cf93"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af567cb17aa6a653d9a567fb65f40b716"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cotton-runtime_8h.html#af567cb17aa6a653d9a567fb65f40b716">cotton::begin_victim_thief_relationship</a> (int victim_worker_id, int thief_worker_id)</td></tr>
+<tr class="separator:af567cb17aa6a653d9a567fb65f40b716"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2faa5f098d14f1a3319101ff735bf016"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cotton-runtime_8h.html#a2faa5f098d14f1a3319101ff735bf016">cotton::end_victim_thief_relationship</a> (int victim_worker_id, int thief_worker_id)</td></tr>
+<tr class="separator:a2faa5f098d14f1a3319101ff735bf016"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a824fc414cfcf95d0d928f9736490ab41"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cotton-runtime_8h.html#a824fc414cfcf95d0d928f9736490ab41">cotton::end_victim</a> (int victim_worker_id)</td></tr>
+<tr class="separator:a824fc414cfcf95d0d928f9736490ab41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:ad72043de8ba79ff3385abd67fd1b15bf"><td class="memItemLeft" align="right" valign="top"><a id="ad72043de8ba79ff3385abd67fd1b15bf"></a>
+volatile bool&#160;</td><td class="memItemRight" valign="bottom"><b>cotton::SHUTDOWN</b></td></tr>
+<tr class="separator:ad72043de8ba79ff3385abd67fd1b15bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1c243496d4cac35fb6d8fb6be14b0f3"><td class="memItemLeft" align="right" valign="top"><a id="ae1c243496d4cac35fb6d8fb6be14b0f3"></a>
+pthread_t *&#160;</td><td class="memItemRight" valign="bottom"><b>cotton::thread</b> = NULL</td></tr>
+<tr class="separator:ae1c243496d4cac35fb6d8fb6be14b0f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41bafde742c3ac2e3f360be9a8b2926d"><td class="memItemLeft" align="right" valign="top"><a id="a41bafde742c3ac2e3f360be9a8b2926d"></a>
+pthread_key_t&#160;</td><td class="memItemRight" valign="bottom"><b>cotton::THREAD_KEY</b></td></tr>
+<tr class="separator:a41bafde742c3ac2e3f360be9a8b2926d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d692d5b7c9fbd1d4999ed8270ebcce0"><td class="memItemLeft" align="right" valign="top"><a id="a0d692d5b7c9fbd1d4999ed8270ebcce0"></a>
+unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>cotton::NUM_WORKERS</b> = 0</td></tr>
+<tr class="separator:a0d692d5b7c9fbd1d4999ed8270ebcce0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71daeb136715fb167bda82ac84373091"><td class="memItemLeft" align="right" valign="top"><a id="a71daeb136715fb167bda82ac84373091"></a>
+pthread_mutex_t *&#160;</td><td class="memItemRight" valign="bottom"><b>cotton::DEQUE_MUTEX</b> = NULL</td></tr>
+<tr class="separator:a71daeb136715fb167bda82ac84373091"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c3fa2e0febd6194c6c2e1b8274e3b6a"><td class="memItemLeft" align="right" valign="top"><a id="a8c3fa2e0febd6194c6c2e1b8274e3b6a"></a>
+volatile unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>cotton::FINISH_COUNTER</b></td></tr>
+<tr class="separator:a8c3fa2e0febd6194c6c2e1b8274e3b6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc469e68d18d644b538f6f16335fb5c4"><td class="memItemLeft" align="right" valign="top"><a id="abc469e68d18d644b538f6f16335fb5c4"></a>
+const unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>cotton::MAX_DEQUE_SIZE</b> = 100</td></tr>
+<tr class="separator:abc469e68d18d644b538f6f16335fb5c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a261cb084089447eb9c2bab5c95891795"><td class="memItemLeft" align="right" valign="top"><a id="a261cb084089447eb9c2bab5c95891795"></a>
+const unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>cotton::DEFAULT_NUM_WORKERS</b> = 1</td></tr>
+<tr class="separator:a261cb084089447eb9c2bab5c95891795"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49aaf0b0bc093f68bcc20907ff338827"><td class="memItemLeft" align="right" valign="top"><a id="a49aaf0b0bc093f68bcc20907ff338827"></a>
+pthread_once_t&#160;</td><td class="memItemRight" valign="bottom"><b>cotton::THREAD_KEY_ONCE</b> = PTHREAD_ONCE_INIT</td></tr>
+<tr class="separator:a49aaf0b0bc093f68bcc20907ff338827"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0fa66e316877ba57e881d9c4fd193765"><td class="memItemLeft" align="right" valign="top"><a id="a0fa66e316877ba57e881d9c4fd193765"></a>
+pthread_mutex_t&#160;</td><td class="memItemRight" valign="bottom"><b>cotton::FINISH_MUTEX</b> = PTHREAD_MUTEX_INITIALIZER</td></tr>
+<tr class="separator:a0fa66e316877ba57e881d9c4fd193765"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90bfbca05b124b3b7e18e43d3354ae4e"><td class="memItemLeft" align="right" valign="top"><a id="a90bfbca05b124b3b7e18e43d3354ae4e"></a>
+Worker *&#160;</td><td class="memItemRight" valign="bottom"><b>cotton::WORKER_ARRAY</b></td></tr>
+<tr class="separator:a90bfbca05b124b3b7e18e43d3354ae4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Header for COTTON runtime metohds. </p>
+<div class="textblock"><p>Header for COTTON runtime methods. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a id="file_af567cb17aa6a653d9a567fb65f40b716"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#file_af567cb17aa6a653d9a567fb65f40b716">&#9670;&nbsp;</a></span>begin_victim_thief_relationship()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cotton::begin_victim_thief_relationship </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>victim_worker_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>thief_worker_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Begin a victim-thief relationship by:</p><ul>
+<li>adding a new thief node to the worker's thief list.</li>
+<li>reducing the CPU frequency of thief worker using DVFS.</li>
+</ul>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">victim_worker_id</td><td>Victim worker </td></tr>
+    <tr><td class="paramname">thief_worker_id</td><td>Thief worker, the one which stole the task.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Void </dd></dl>
+
+</div>
+</div>
+<a id="file_a522a9376ec51306eab1724b2a9a1cf93"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#file_a522a9376ec51306eab1724b2a9a1cf93">&#9670;&nbsp;</a></span>DOWN()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cotton::DOWN </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>worker_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Decrease the CPU frequency of the worker by one level.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">worker_id</td><td>Worker</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Void </dd></dl>
+
+</div>
+</div>
+<a id="file_a824fc414cfcf95d0d928f9736490ab41"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#file_a824fc414cfcf95d0d928f9736490ab41">&#9670;&nbsp;</a></span>end_victim()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cotton::end_victim </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>victim_worker_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>End the victim status of a worker:</p><ul>
+<li>increasing the CPU frequency of all its thiefs, and their thieves, recursively by one level.</li>
+<li>free the memory occupied by the thief list of the worker</li>
+</ul>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">victim_worker_id</td><td>Victim worker</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Void </dd></dl>
+
+</div>
+</div>
+<a id="file_a2faa5f098d14f1a3319101ff735bf016"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#file_a2faa5f098d14f1a3319101ff735bf016">&#9670;&nbsp;</a></span>end_victim_thief_relationship()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cotton::end_victim_thief_relationship </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>victim_worker_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>thief_worker_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Increasing the CPU frequency of all thiefs, and their thieves, recursively by one level.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">victim_worker_id</td><td>Victim worker </td></tr>
+    <tr><td class="paramname">thief_worker_id</td><td>Thief worker, the one which stole the task.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Void </dd></dl>
+
+</div>
+</div>
 <a id="file_af22caee9434a7e06a09b2f9a0417c1eb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#file_af22caee9434a7e06a09b2f9a0417c1eb">&#9670;&nbsp;</a></span>find_and_execute_task()</h2>
 
@@ -126,6 +313,25 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Finds a task from the per thread deque data structures, executes it and finally decrements the volatile finish counter after acquiring the lock</p>
+<dl class="section return"><dt>Returns</dt><dd>Void </dd></dl>
+
+</div>
+</div>
+<a id="file_ad169fe95f5f03bdfa569dd365dde6c12"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#file_ad169fe95f5f03bdfa569dd365dde6c12">&#9670;&nbsp;</a></span>free_all()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cotton::free_all </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Call free() on everything allocated on heap.</p>
 <dl class="section return"><dt>Returns</dt><dd>Void </dd></dl>
 
 </div>
@@ -149,14 +355,14 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="file_afaca8aa46092d066bf1d996ae09fb83d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#file_afaca8aa46092d066bf1d996ae09fb83d">&#9670;&nbsp;</a></span>grab_task_from_runtime()</h2>
+<a id="file_a1cae25b77bd884fcdcf2532663056d22"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#file_a1cae25b77bd884fcdcf2532663056d22">&#9670;&nbsp;</a></span>grab_task_from_runtime()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::function&lt; void()&gt; cotton::grab_task_from_runtime </td>
+          <td class="memname">void * cotton::grab_task_from_runtime </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -188,8 +394,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="file_a2b2001813bd051cd1ff41a75989667c0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#file_a2b2001813bd051cd1ff41a75989667c0">&#9670;&nbsp;</a></span>push_task_to_runtime()</h2>
+<a id="file_a803285410d295a5f32238ad2dfc241a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#file_a803285410d295a5f32238ad2dfc241a5">&#9670;&nbsp;</a></span>push_task_to_runtime()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -197,8 +403,8 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void cotton::push_task_to_runtime </td>
           <td>(</td>
-          <td class="paramtype">std::function&lt; void()&gt; &amp;&amp;&#160;</td>
-          <td class="paramname"><em>lambda</em></td><td>)</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>task</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -223,7 +429,70 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Wrapper to get the value mentioned in the environment variable COTTON_WORKERS</p>
-<dl class="section return"><dt>Returns</dt><dd>Number of threads to use at max </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Number of threads to use at max (default = 1) </dd></dl>
+
+</div>
+</div>
+<a id="file_ae91d8cfb1b831a971eafccb512c17a15"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#file_ae91d8cfb1b831a971eafccb512c17a15">&#9670;&nbsp;</a></span>UP() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cotton::UP </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>worker_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Increase the CPU frequency of the worker by one level.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">worker_id</td><td>Worker</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Void </dd></dl>
+
+</div>
+</div>
+<a id="file_a7ed5b064cd66a53e2f01dc2c18c7e8d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#file_a7ed5b064cd66a53e2f01dc2c18c7e8d5">&#9670;&nbsp;</a></span>UP() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cotton::UP </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>worker_id_1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>worker_id_2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Increase the CPU frequency of Worker 2 by one level above Worker 1.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">worker_id_1</td><td>Worker 1 </td></tr>
+    <tr><td class="paramname">worker_id_2</td><td>Worker 2</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Void </dd></dl>
 
 </div>
 </div>

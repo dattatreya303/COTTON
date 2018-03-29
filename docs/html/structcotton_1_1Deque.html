@@ -78,24 +78,24 @@ $(function() {
 Public Member Functions</h2></td></tr>
 <tr class="memitem:aa9786768e53c18c03e6e641e06e075e6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcotton_1_1Deque.html#aa9786768e53c18c03e6e641e06e075e6">isEmpty</a> ()</td></tr>
 <tr class="separator:aa9786768e53c18c03e6e641e06e075e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ed7ee8c99eb531a0a0f769453c7e0d8"><td class="memItemLeft" align="right" valign="top">std::function&lt; void()&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcotton_1_1Deque.html#a3ed7ee8c99eb531a0a0f769453c7e0d8">pop_from_deque</a> ()</td></tr>
-<tr class="separator:a3ed7ee8c99eb531a0a0f769453c7e0d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac890b51124250fc9d179527d2d8f7799"><td class="memItemLeft" align="right" valign="top">std::function&lt; void()&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcotton_1_1Deque.html#ac890b51124250fc9d179527d2d8f7799">steal_from_deque</a> ()</td></tr>
-<tr class="separator:ac890b51124250fc9d179527d2d8f7799"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a25b82cdb2dedb264c91301a050990203"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcotton_1_1Deque.html#a25b82cdb2dedb264c91301a050990203">push_to_deque</a> (std::function&lt; void()&gt; &amp;&amp;lambda)</td></tr>
-<tr class="separator:a25b82cdb2dedb264c91301a050990203"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a206682dc43f6b981adcf3c10c6696f1b"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcotton_1_1Deque.html#a206682dc43f6b981adcf3c10c6696f1b">pop_from_deque</a> ()</td></tr>
+<tr class="separator:a206682dc43f6b981adcf3c10c6696f1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a33215b0b811484e2af94f2db16a5c15c"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcotton_1_1Deque.html#a33215b0b811484e2af94f2db16a5c15c">steal_from_deque</a> ()</td></tr>
+<tr class="separator:a33215b0b811484e2af94f2db16a5c15c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a482281bb7b1afec18e0f324156c2ad27"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcotton_1_1Deque.html#a482281bb7b1afec18e0f324156c2ad27">push_to_deque</a> (void *task)</td></tr>
+<tr class="separator:a482281bb7b1afec18e0f324156c2ad27"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:a308f8b4aeccac0361b8aac86af5c08a9"><td class="memItemLeft" align="right" valign="top"><a id="a308f8b4aeccac0361b8aac86af5c08a9"></a>
-unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>head</b></td></tr>
-<tr class="separator:a308f8b4aeccac0361b8aac86af5c08a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeaec5392dc7ffe5dc6eaa1bbb97b5f89"><td class="memItemLeft" align="right" valign="top"><a id="aeaec5392dc7ffe5dc6eaa1bbb97b5f89"></a>
-unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>tail</b></td></tr>
-<tr class="separator:aeaec5392dc7ffe5dc6eaa1bbb97b5f89"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8bce36d5e899a183026a5026d2d1158e"><td class="memItemLeft" align="right" valign="top"><a id="a8bce36d5e899a183026a5026d2d1158e"></a>
-std::function&lt; void()&gt; *&#160;</td><td class="memItemRight" valign="bottom"><b>task_deque</b></td></tr>
-<tr class="separator:a8bce36d5e899a183026a5026d2d1158e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6b3bcb9724c06b1d44c1b2991cf5527"><td class="memItemLeft" align="right" valign="top"><a id="af6b3bcb9724c06b1d44c1b2991cf5527"></a>
+volatile unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>head</b></td></tr>
+<tr class="separator:af6b3bcb9724c06b1d44c1b2991cf5527"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a072396dbfabb1e2de55c15eb352462be"><td class="memItemLeft" align="right" valign="top"><a id="a072396dbfabb1e2de55c15eb352462be"></a>
+volatile unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>tail</b></td></tr>
+<tr class="separator:a072396dbfabb1e2de55c15eb352462be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2d64df8094054fb069ef74c5842df60"><td class="memItemLeft" align="right" valign="top"><a id="af2d64df8094054fb069ef74c5842df60"></a>
+volatile void *&#160;</td><td class="memItemRight" valign="bottom"><b>task_deque</b> [MAX_DEQUE_SIZE]</td></tr>
+<tr class="separator:af2d64df8094054fb069ef74c5842df60"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="aa9786768e53c18c03e6e641e06e075e6"></a>
@@ -117,14 +117,14 @@ std::function&lt; void()&gt; *&#160;</td><td class="memItemRight" valign="bottom
 
 </div>
 </div>
-<a id="a3ed7ee8c99eb531a0a0f769453c7e0d8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3ed7ee8c99eb531a0a0f769453c7e0d8">&#9670;&nbsp;</a></span>pop_from_deque()</h2>
+<a id="a206682dc43f6b981adcf3c10c6696f1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a206682dc43f6b981adcf3c10c6696f1b">&#9670;&nbsp;</a></span>pop_from_deque()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::function&lt; void()&gt; cotton::Deque::pop_from_deque </td>
+          <td class="memname">void * cotton::Deque::pop_from_deque </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -136,8 +136,8 @@ std::function&lt; void()&gt; *&#160;</td><td class="memItemRight" valign="bottom
 
 </div>
 </div>
-<a id="a25b82cdb2dedb264c91301a050990203"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a25b82cdb2dedb264c91301a050990203">&#9670;&nbsp;</a></span>push_to_deque()</h2>
+<a id="a482281bb7b1afec18e0f324156c2ad27"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a482281bb7b1afec18e0f324156c2ad27">&#9670;&nbsp;</a></span>push_to_deque()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -145,8 +145,8 @@ std::function&lt; void()&gt; *&#160;</td><td class="memItemRight" valign="bottom
         <tr>
           <td class="memname">void cotton::Deque::push_to_deque </td>
           <td>(</td>
-          <td class="paramtype">std::function&lt; void()&gt; &amp;&amp;&#160;</td>
-          <td class="paramname"><em>lambda</em></td><td>)</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>task</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -154,7 +154,7 @@ std::function&lt; void()&gt; *&#160;</td><td class="memItemRight" valign="bottom
 <p>Pushes the task to the deque data structure after checking boundary conditions</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">lambda</td><td>Takes the task encapsulated in a lamda function </td></tr>
+    <tr><td class="paramname">task</td><td>Takes the task encapsulated in a lamda function </td></tr>
   </table>
   </dd>
 </dl>
@@ -162,14 +162,14 @@ std::function&lt; void()&gt; *&#160;</td><td class="memItemRight" valign="bottom
 
 </div>
 </div>
-<a id="ac890b51124250fc9d179527d2d8f7799"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac890b51124250fc9d179527d2d8f7799">&#9670;&nbsp;</a></span>steal_from_deque()</h2>
+<a id="a33215b0b811484e2af94f2db16a5c15c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a33215b0b811484e2af94f2db16a5c15c">&#9670;&nbsp;</a></span>steal_from_deque()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::function&lt; void()&gt; cotton::Deque::steal_from_deque </td>
+          <td class="memname">void * cotton::Deque::steal_from_deque </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>

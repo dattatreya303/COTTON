@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['get_5fthreadid',['get_threadID',['../cotton-runtime_8h.html#ab1ebe1f6821a54e7c4911c22acebff8a',1,'cotton']]],
-  ['grab_5ftask_5ffrom_5fruntime',['grab_task_from_runtime',['../cotton-runtime_8h.html#afaca8aa46092d066bf1d996ae09fb83d',1,'cotton']]]
+  ['finalize_5fruntime',['finalize_runtime',['../cotton_8h.html#a3061b2929300562580e4bf1416372c3f',1,'cotton']]],
+  ['find_5fand_5fexecute_5ftask',['find_and_execute_task',['../cotton-runtime_8h.html#af22caee9434a7e06a09b2f9a0417c1eb',1,'cotton']]],
+  ['free_5fall',['free_all',['../cotton-runtime_8h.html#ad169fe95f5f03bdfa569dd365dde6c12',1,'cotton']]],
+  ['free_5fthief_5flist',['free_thief_list',['../structcotton_1_1Worker.html#a2c5e25bbc0b0e2417281ed2832b728a5',1,'cotton::Worker']]]
 ];

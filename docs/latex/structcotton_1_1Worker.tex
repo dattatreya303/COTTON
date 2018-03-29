@@ -1,0 +1,67 @@
+\hypertarget{structcotton_1_1Worker}{}\section{cotton\+:\+:Worker Struct Reference}
+\label{structcotton_1_1Worker}\index{cotton\+::\+Worker@{cotton\+::\+Worker}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{structcotton_1_1Worker_a1c6114b25a55f514124704d2073a9a9a}{is\+\_\+victim}} ()
+\item 
+void \mbox{\hyperlink{structcotton_1_1Worker_a8e28883823dae5e4c840236ab7168c00}{add\+\_\+thief}} (int thief\+\_\+worker\+\_\+id)
+\item 
+void \mbox{\hyperlink{structcotton_1_1Worker_a2c5e25bbc0b0e2417281ed2832b728a5}{free\+\_\+thief\+\_\+list}} ()
+\end{DoxyCompactItemize}
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structcotton_1_1Worker_abc5dad171263747fea30a5a0cf617c3b}\label{structcotton_1_1Worker_abc5dad171263747fea30a5a0cf617c3b}} 
+\mbox{\hyperlink{structcotton_1_1Deque}{Deque}} $\ast$ {\bfseries worker\+\_\+deque}
+\item 
+\mbox{\Hypertarget{structcotton_1_1Worker_ae1e4d32682edf2db3ec7839c92a61551}\label{structcotton_1_1Worker_ae1e4d32682edf2db3ec7839c92a61551}} 
+\mbox{\hyperlink{structcotton_1_1Thief__node}{Thief\+\_\+node}} $\ast$ {\bfseries thief\+\_\+list\+\_\+head}
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{structcotton_1_1Worker_a8e28883823dae5e4c840236ab7168c00}\label{structcotton_1_1Worker_a8e28883823dae5e4c840236ab7168c00}} 
+\index{cotton\+::\+Worker@{cotton\+::\+Worker}!add\+\_\+thief@{add\+\_\+thief}}
+\index{add\+\_\+thief@{add\+\_\+thief}!cotton\+::\+Worker@{cotton\+::\+Worker}}
+\subsubsection{\texorpdfstring{add\+\_\+thief()}{add\_thief()}}
+{\footnotesize\ttfamily void cotton\+::\+Worker\+::add\+\_\+thief (\begin{DoxyParamCaption}\item[{int}]{thief\+\_\+worker\+\_\+id }\end{DoxyParamCaption})}
+
+Add a thief node to the thief list of worker. This establishes a victim-\/thief relationship.
+
+
+\begin{DoxyParams}{Parameters}
+{\em thief\+\_\+worker\+\_\+id} & Thief worker \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{structcotton_1_1Worker_a2c5e25bbc0b0e2417281ed2832b728a5}\label{structcotton_1_1Worker_a2c5e25bbc0b0e2417281ed2832b728a5}} 
+\index{cotton\+::\+Worker@{cotton\+::\+Worker}!free\+\_\+thief\+\_\+list@{free\+\_\+thief\+\_\+list}}
+\index{free\+\_\+thief\+\_\+list@{free\+\_\+thief\+\_\+list}!cotton\+::\+Worker@{cotton\+::\+Worker}}
+\subsubsection{\texorpdfstring{free\+\_\+thief\+\_\+list()}{free\_thief\_list()}}
+{\footnotesize\ttfamily void cotton\+::\+Worker\+::free\+\_\+thief\+\_\+list (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Iteratively free the memory occupied by the thief list of the worker.
+
+\begin{DoxyReturn}{Returns}
+Void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{structcotton_1_1Worker_a1c6114b25a55f514124704d2073a9a9a}\label{structcotton_1_1Worker_a1c6114b25a55f514124704d2073a9a9a}} 
+\index{cotton\+::\+Worker@{cotton\+::\+Worker}!is\+\_\+victim@{is\+\_\+victim}}
+\index{is\+\_\+victim@{is\+\_\+victim}!cotton\+::\+Worker@{cotton\+::\+Worker}}
+\subsubsection{\texorpdfstring{is\+\_\+victim()}{is\_victim()}}
+{\footnotesize\ttfamily bool cotton\+::\+Worker\+::is\+\_\+victim (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Checks if the worker is still a victim. A worker will remain a victim until its thief list points to N\+U\+LL.
+
+\begin{DoxyReturn}{Returns}
+True, if worker is a victim. Else, false. 
+\end{DoxyReturn}
+
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{cotton-runtime_8h}{cotton-\/runtime.\+h}}\item 
+\mbox{\hyperlink{cotton-runtime_8cpp}{cotton-\/runtime.\+cpp}}\end{DoxyCompactItemize}

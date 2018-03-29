@@ -1,7 +1,4 @@
 var searchData=
 [
-  ['cotton_2druntime_2ecpp',['cotton-runtime.cpp',['../cotton-runtime_8cpp.html',1,'']]],
-  ['cotton_2druntime_2eh',['cotton-runtime.h',['../cotton-runtime_8h.html',1,'']]],
-  ['cotton_2eh',['cotton.h',['../cotton_8h.html',1,'']]],
-  ['cotton',['COTTON',['../md_README.html',1,'']]]
+  ['begin_5fvictim_5fthief_5frelationship',['begin_victim_thief_relationship',['../cotton-runtime_8h.html#af567cb17aa6a653d9a567fb65f40b716',1,'cotton']]]
 ];

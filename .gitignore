@@ -56,5 +56,8 @@
 *.out
 *.synctex.gz
 
+# Floobits files
+./.floo*
+
 # Project-specific executables
 ./nqueens
