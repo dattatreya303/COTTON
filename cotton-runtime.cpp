@@ -7,6 +7,12 @@
 #include "cotton-runtime.h"
 
 
+
+/**
+Evaluates the current size of the deque making use of tail and head information
+
+@return Current size of the deque
+**/
 unsigned int cotton::Deque::sizeof_deque() {
 	return abs(tail - head);
 }
@@ -34,8 +40,8 @@ Wrapper to check if the deque data structure is empty
 
 @return True if the task deque is empty and false otherwise
 **/
-bool cotton::Deque::isEmpty(){
-	if( tail == head ){
+bool cotton::Deque::isEmpty() {
+	if( tail == head ) {
 		return true;
 	}
 	return false;
@@ -389,6 +395,14 @@ void cotton::end_victim(int victim_worker_id) {
 	cotton::WORKER_ARRAY[victim_worker_id].free_thief_list();
 }
 
+
+/**
+Checks the current worker's deque size and compares it with it's threshold value. If it is found to be greater then it increases the frequency of the core on which the worker is running.
+
+@param worker_id Worker
+
+@return Void
+**/
 void cotton::workload_up_check(int worker_id) {
 	int current_threshold_index = cotton::WORKER_ARRAY[ worker_id ].current_size_threshold_index;
 	int current_threshold = cotton::WORKER_ARRAY[ worker_id ].size_thresholds[current_threshold_index];
@@ -401,6 +415,14 @@ void cotton::workload_up_check(int worker_id) {
 	}
 }
 
+
+/**
+Checks the current worker's deque size and compares it with it's threshold value. If it is found to be greater then it decreases the frequency of the core on which the worker is running.
+
+@param worker_id Worker
+
+@return Void
+**/
 void cotton::workload_down_check(int worker_id) {
 	int current_threshold_index = cotton::WORKER_ARRAY[ worker_id ].current_size_threshold_index;
 	int current_threshold = cotton::WORKER_ARRAY[ worker_id ].size_thresholds[current_threshold_index];

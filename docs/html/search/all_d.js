@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['readme_2emd',['README.md',['../README_8md.html',1,'']]]
+  ['worker',['Worker',['../structcotton_1_1Worker.html',1,'cotton']]],
+  ['worker_5froutine',['worker_routine',['../cotton-runtime_8h.html#a361c34063ecb68cf02d417074decb12b',1,'cotton']]]
 ];

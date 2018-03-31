@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['finalize_5fruntime',['finalize_runtime',['../cotton_8h.html#a3061b2929300562580e4bf1416372c3f',1,'cotton']]],
-  ['find_5fand_5fexecute_5ftask',['find_and_execute_task',['../cotton-runtime_8h.html#af22caee9434a7e06a09b2f9a0417c1eb',1,'cotton']]]
+  ['end_5ffinish',['end_finish',['../cotton_8h.html#ab413e05e91ff6e4918aa9aa63d52b2ff',1,'cotton']]],
+  ['end_5fvictim',['end_victim',['../cotton-runtime_8h.html#a824fc414cfcf95d0d928f9736490ab41',1,'cotton']]],
+  ['end_5fvictim_5fthief_5frelationship',['end_victim_thief_relationship',['../cotton-runtime_8h.html#a2faa5f098d14f1a3319101ff735bf016',1,'cotton']]]
 ];

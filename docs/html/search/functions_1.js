@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['end_5ffinish',['end_finish',['../cotton_8h.html#ab413e05e91ff6e4918aa9aa63d52b2ff',1,'cotton']]]
+  ['begin_5fvictim_5fthief_5frelationship',['begin_victim_thief_relationship',['../cotton-runtime_8h.html#af567cb17aa6a653d9a567fb65f40b716',1,'cotton']]]
 ];

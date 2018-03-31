@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['end_5ffinish',['end_finish',['../cotton_8h.html#ab413e05e91ff6e4918aa9aa63d52b2ff',1,'cotton']]]
+  ['deque',['Deque',['../structcotton_1_1Deque.html',1,'cotton']]],
+  ['down',['DOWN',['../cotton-runtime_8h.html#a522a9376ec51306eab1724b2a9a1cf93',1,'cotton']]]
 ];

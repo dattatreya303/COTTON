@@ -5,23 +5,23 @@
 \item 
 bool \mbox{\hyperlink{structcotton_1_1Deque_aa9786768e53c18c03e6e641e06e075e6}{is\+Empty}} ()
 \item 
-std\+::function$<$ void()$>$ \mbox{\hyperlink{structcotton_1_1Deque_a3ed7ee8c99eb531a0a0f769453c7e0d8}{pop\+\_\+from\+\_\+deque}} ()
+void $\ast$ \mbox{\hyperlink{structcotton_1_1Deque_a206682dc43f6b981adcf3c10c6696f1b}{pop\+\_\+from\+\_\+deque}} ()
 \item 
-std\+::function$<$ void()$>$ \mbox{\hyperlink{structcotton_1_1Deque_ac890b51124250fc9d179527d2d8f7799}{steal\+\_\+from\+\_\+deque}} ()
+void $\ast$ \mbox{\hyperlink{structcotton_1_1Deque_a33215b0b811484e2af94f2db16a5c15c}{steal\+\_\+from\+\_\+deque}} ()
 \item 
-void \mbox{\hyperlink{structcotton_1_1Deque_a25b82cdb2dedb264c91301a050990203}{push\+\_\+to\+\_\+deque}} (std\+::function$<$ void()$>$ \&\&lambda)
+void \mbox{\hyperlink{structcotton_1_1Deque_a482281bb7b1afec18e0f324156c2ad27}{push\+\_\+to\+\_\+deque}} (void $\ast$task)
 \end{DoxyCompactItemize}
 \subsection*{Data Fields}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{structcotton_1_1Deque_a308f8b4aeccac0361b8aac86af5c08a9}\label{structcotton_1_1Deque_a308f8b4aeccac0361b8aac86af5c08a9}} 
-unsigned int {\bfseries head}
+\mbox{\Hypertarget{structcotton_1_1Deque_af6b3bcb9724c06b1d44c1b2991cf5527}\label{structcotton_1_1Deque_af6b3bcb9724c06b1d44c1b2991cf5527}} 
+volatile unsigned int {\bfseries head}
 \item 
-\mbox{\Hypertarget{structcotton_1_1Deque_aeaec5392dc7ffe5dc6eaa1bbb97b5f89}\label{structcotton_1_1Deque_aeaec5392dc7ffe5dc6eaa1bbb97b5f89}} 
-unsigned int {\bfseries tail}
+\mbox{\Hypertarget{structcotton_1_1Deque_a072396dbfabb1e2de55c15eb352462be}\label{structcotton_1_1Deque_a072396dbfabb1e2de55c15eb352462be}} 
+volatile unsigned int {\bfseries tail}
 \item 
-\mbox{\Hypertarget{structcotton_1_1Deque_a8bce36d5e899a183026a5026d2d1158e}\label{structcotton_1_1Deque_a8bce36d5e899a183026a5026d2d1158e}} 
-std\+::function$<$ void()$>$ $\ast$ {\bfseries task\+\_\+deque}
+\mbox{\Hypertarget{structcotton_1_1Deque_af2d64df8094054fb069ef74c5842df60}\label{structcotton_1_1Deque_af2d64df8094054fb069ef74c5842df60}} 
+volatile void $\ast$ {\bfseries task\+\_\+deque} \mbox{[}M\+A\+X\+\_\+\+D\+E\+Q\+U\+E\+\_\+\+S\+I\+ZE\mbox{]}
 \end{DoxyCompactItemize}
 
 
@@ -37,38 +37,38 @@ Wrapper to check if the deque data structure is empty
 \begin{DoxyReturn}{Returns}
 True if the task deque is empty and false otherwise 
 \end{DoxyReturn}
-\mbox{\Hypertarget{structcotton_1_1Deque_a3ed7ee8c99eb531a0a0f769453c7e0d8}\label{structcotton_1_1Deque_a3ed7ee8c99eb531a0a0f769453c7e0d8}} 
+\mbox{\Hypertarget{structcotton_1_1Deque_a206682dc43f6b981adcf3c10c6696f1b}\label{structcotton_1_1Deque_a206682dc43f6b981adcf3c10c6696f1b}} 
 \index{cotton\+::\+Deque@{cotton\+::\+Deque}!pop\+\_\+from\+\_\+deque@{pop\+\_\+from\+\_\+deque}}
 \index{pop\+\_\+from\+\_\+deque@{pop\+\_\+from\+\_\+deque}!cotton\+::\+Deque@{cotton\+::\+Deque}}
 \subsubsection{\texorpdfstring{pop\+\_\+from\+\_\+deque()}{pop\_from\_deque()}}
-{\footnotesize\ttfamily std\+::function$<$ void()$>$ cotton\+::\+Deque\+::pop\+\_\+from\+\_\+deque (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void $\ast$ cotton\+::\+Deque\+::pop\+\_\+from\+\_\+deque (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
 Pops the task from the calling thread\textquotesingle{}s deque data structure and checks for boundary conditions
 
 \begin{DoxyReturn}{Returns}
 Task encapsulated in a lambda function upon success otherwise N\+U\+LL 
 \end{DoxyReturn}
-\mbox{\Hypertarget{structcotton_1_1Deque_a25b82cdb2dedb264c91301a050990203}\label{structcotton_1_1Deque_a25b82cdb2dedb264c91301a050990203}} 
+\mbox{\Hypertarget{structcotton_1_1Deque_a482281bb7b1afec18e0f324156c2ad27}\label{structcotton_1_1Deque_a482281bb7b1afec18e0f324156c2ad27}} 
 \index{cotton\+::\+Deque@{cotton\+::\+Deque}!push\+\_\+to\+\_\+deque@{push\+\_\+to\+\_\+deque}}
 \index{push\+\_\+to\+\_\+deque@{push\+\_\+to\+\_\+deque}!cotton\+::\+Deque@{cotton\+::\+Deque}}
 \subsubsection{\texorpdfstring{push\+\_\+to\+\_\+deque()}{push\_to\_deque()}}
-{\footnotesize\ttfamily void cotton\+::\+Deque\+::push\+\_\+to\+\_\+deque (\begin{DoxyParamCaption}\item[{std\+::function$<$ void()$>$ \&\&}]{lambda }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void cotton\+::\+Deque\+::push\+\_\+to\+\_\+deque (\begin{DoxyParamCaption}\item[{void $\ast$}]{task }\end{DoxyParamCaption})}
 
 Pushes the task to the deque data structure after checking boundary conditions
 
 
 \begin{DoxyParams}{Parameters}
-{\em lambda} & Takes the task encapsulated in a lamda function \\
+{\em task} & Takes the task encapsulated in a lamda function \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 Void 
 \end{DoxyReturn}
-\mbox{\Hypertarget{structcotton_1_1Deque_ac890b51124250fc9d179527d2d8f7799}\label{structcotton_1_1Deque_ac890b51124250fc9d179527d2d8f7799}} 
+\mbox{\Hypertarget{structcotton_1_1Deque_a33215b0b811484e2af94f2db16a5c15c}\label{structcotton_1_1Deque_a33215b0b811484e2af94f2db16a5c15c}} 
 \index{cotton\+::\+Deque@{cotton\+::\+Deque}!steal\+\_\+from\+\_\+deque@{steal\+\_\+from\+\_\+deque}}
 \index{steal\+\_\+from\+\_\+deque@{steal\+\_\+from\+\_\+deque}!cotton\+::\+Deque@{cotton\+::\+Deque}}
 \subsubsection{\texorpdfstring{steal\+\_\+from\+\_\+deque()}{steal\_from\_deque()}}
-{\footnotesize\ttfamily std\+::function$<$ void()$>$ cotton\+::\+Deque\+::steal\+\_\+from\+\_\+deque (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void $\ast$ cotton\+::\+Deque\+::steal\+\_\+from\+\_\+deque (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
 Steals the task from the victim thread\textquotesingle{}s deque data structure and checks for boundary conditions
 
