@@ -5,7 +5,6 @@
 
 #include "cotton.h"
 
-
 namespace cotton {
 	
 	#define NUM_THRESHOLDS 4
@@ -21,7 +20,8 @@ namespace cotton {
 	const unsigned int DEFAULT_NUM_WORKERS = 1;
 	pthread_once_t THREAD_KEY_ONCE = PTHREAD_ONCE_INIT;
 	pthread_mutex_t FINISH_MUTEX = PTHREAD_MUTEX_INITIALIZER;
-	const double CPU_FREQUENCIES_SUPPORTED[] = {2.4, 2.4, 2.4, 2.4}; // use cpupower to get the list - does not work on my system though
+	
+	double CPU_FREQUENCIES_SUPPORTED[] = {0};
 
 	struct Deque {
 		volatile unsigned int head;
@@ -103,6 +103,7 @@ namespace cotton {
 	void find_and_execute_task();
 	void* grab_task_from_runtime();
 	void* worker_routine(void *args);
+	void set_supported_cpu_frequencies();
 	void push_task_to_runtime(void *task);
 	unsigned int bind_thread_to_core(pthread_t thread_to_map, int core_id);
 

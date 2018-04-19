@@ -7,7 +7,6 @@
 #include "cotton-runtime.h"
 
 
-
 /**
 Evaluates the current size of the deque making use of tail and head information
 
@@ -236,9 +235,11 @@ Spawns all the required threads after initializing the pthread key and setting t
 **/
 void cotton::init_runtime() {
 
+	int num_cores = sysconf(_SC_NPROCESSORS_ONLN);
+	cotton::set_supported_cpu_frequencies();
+
 	cotton::NUM_WORKERS = cotton::thread_pool_size();
 
-	int num_cores = sysconf(_SC_NPROCESSORS_ONLN);
 	assert(cotton::NUM_WORKERS <= num_cores && "Energy Efficiency can be observed only when number of workers are less than the number of cores on system");
 
 	assert((pthread_once(&cotton::THREAD_KEY_ONCE, cotton::lib_key_init) == 0));
@@ -461,6 +462,34 @@ void cotton::workload_down_check(int worker_id) {
 	}
 }
 
+void cotton::set_supported_cpu_frequencies() {
+	
+	std::ifstream fin_max("/sys/devices/system/cpu/cpufreq/policy0/cpuinfo_max_freq");
+	assert(fin_max && "Could not open cpuinfo_max_freq");
+	std::ifstream fin_min("/sys/devices/system/cpu/cpufreq/policy0/cpuinfo_min_freq");	
+	assert(fin_min && "Could not open cpuinfo_min_freq");
+	
+	char* max_freq_str = (char*)malloc(sizeof(char) * 10);
+	assert(max_freq_str && "Could not allocate memory to max_freq_str");
+	double max_freq = -1;
+	fin_max >> max_freq_str;
+	max_freq = strtol(max_freq_str, NULL, 10);
+	
+	char* min_freq_str = (char*)malloc(sizeof(char) * 10);
+	assert(min_freq_str && "Could not allocate memory to min_freq_str");
+	double min_freq = -1;
+	fin_min >> min_freq_str;
+	min_freq = strtol(min_freq_str, NULL, 10);
+	
+	int num_cores = sysconf(_SC_NPROCESSORS_ONLN);
+	for(int i = 0; i < num_cores; i++) {
+		cotton::CPU_FREQUENCIES_SUPPORTED[i] = min_freq + ((max_freq - min_freq) * ((double)i/3));
+	}
+	
+	fin_max.close();
+	fin_min.close();
+}
+
 /**
 Increase the CPU frequency of the worker by one level.
 
@@ -469,6 +498,14 @@ Increase the CPU frequency of the worker by one level.
 @return Void
 **/
 void cotton::UP(int worker_id) {
+	if( cotton::WORKER_ARRAY[ worker_id ].current_frequency_index == (sizeof(cotton::CPU_FREQUENCIES_SUPPORTED)/sizeof(double) - 1) ) {
+		return;
+	}
+	std::ofstream fout("/sys/devices/system/cpu/cpufreq/policy" + std::to_string(worker_id) + "/scaling_setspeed");
+	assert(fout && "Could not open scaling_setspeed");
+	cotton::WORKER_ARRAY[ worker_id ].current_frequency_index += 1;
+	double new_speed = cotton::CPU_FREQUENCIES_SUPPORTED[ cotton::WORKER_ARRAY[ worker_id ].current_frequency_index];
+	fout << new_speed;
 	return;
 }
 
@@ -480,6 +517,14 @@ Decrease the CPU frequency of the worker by one level.
 @return Void
 **/
 void cotton::DOWN(int worker_id) {
+	if( cotton::WORKER_ARRAY[ worker_id ].current_frequency_index == 0 ) {
+		return;
+	}
+	std::ofstream fout("/sys/devices/system/cpu/cpufreq/policy" + std::to_string(worker_id) + "/scaling_setspeed");
+	assert(fout && "Could not open scaling_setspeed");
+	cotton::WORKER_ARRAY[ worker_id ].current_frequency_index -= 1;
+	double new_speed = cotton::CPU_FREQUENCIES_SUPPORTED[ cotton::WORKER_ARRAY[ worker_id ].current_frequency_index];
+	fout << new_speed;
 	return;
 }
 
@@ -492,5 +537,13 @@ Decrease the CPU frequency of Worker 2 by one level below Worker 1.
 @return Void
 **/
 void cotton::DOWN(int worker_id_1, int worker_id_2) {
+	if( cotton::WORKER_ARRAY[ worker_id_1 ].current_frequency_index == 0 ) {
+		return;
+	}
+	std::ofstream fout("/sys/devices/system/cpu/cpufreq/policy" + std::to_string(worker_id_2) + "/scaling_setspeed");
+	assert(fout && "Could not open scaling_setspeed");
+	cotton::WORKER_ARRAY[ worker_id_2 ].current_frequency_index = cotton::WORKER_ARRAY[worker_id_1].current_frequency_index - 1;
+	double new_speed = cotton::CPU_FREQUENCIES_SUPPORTED[ cotton::WORKER_ARRAY[ worker_id_2 ].current_frequency_index];
+	fout << new_speed;
 	return;
 }

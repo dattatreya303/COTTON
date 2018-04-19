@@ -12,6 +12,7 @@
 #include <pthread.h>
 #include <stdexcept>
 #include <functional>
+#include <fstream>
 
 namespace cotton {
 	void end_finish();
