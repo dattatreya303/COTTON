@@ -19,4 +19,7 @@ namespace cotton {
 	void async(std::function<void()> &&lambda);
 	void end_finish();
 	void finalize_runtime();
+
+    unsigned int get_threadID();
+    unsigned int thread_pool_size();
 }

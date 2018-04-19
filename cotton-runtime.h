@@ -100,10 +100,8 @@ namespace cotton {
 	
 	void free_all();
 	void lib_key_init();
-	unsigned int get_threadID();
 	void find_and_execute_task();
 	void* grab_task_from_runtime();
-	unsigned int thread_pool_size();
 	void* worker_routine(void *args);
 	void push_task_to_runtime(void *task);
 
