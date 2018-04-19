@@ -104,6 +104,7 @@ namespace cotton {
 	void* grab_task_from_runtime();
 	void* worker_routine(void *args);
 	void push_task_to_runtime(void *task);
+	unsigned int bind_thread_to_core(pthread_t thread_to_map, int core_id);
 
 	// Energy efficient runtime methods.
 	void UP(int worker_id);	

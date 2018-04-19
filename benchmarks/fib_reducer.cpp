@@ -1,5 +1,6 @@
 #include "../cotton.h"
 #include <inttypes.h>
+#include <numeric>
 #include <algorithm>
 #include <sys/time.h>
 

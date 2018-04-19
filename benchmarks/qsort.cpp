@@ -109,7 +109,7 @@ int main(int argc, char **argv) {
     cotton::init_runtime();  
 	// hclib::launch([=]() {
         int N = argc>1 ? atoi(argv[1]) : 10000000; // 1 million
-            int threshold = argc>2 ? atoi(argv[2]) : (int)(0.001*N);
+            int threshold = argc>2 ? atoi(argv[2]) : (int)(0.0001*N);
         printf("Sorting %d size array with threshold of %d\n",N,threshold);
         ELEMENT_T* data = new ELEMENT_T[N];
 

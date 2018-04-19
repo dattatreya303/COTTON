@@ -96,7 +96,7 @@ unsigned int cotton::thread_pool_size() {
 	
 	if( envData != NULL ) {
 		numWorkers = strtol(envData, NULL, 10);
-		if( numWorkers == 0 ) {
+		if( numWorkers <= 0 ) {
 			printf("COTTON_WORKERS only accepts positive integers greater.\n");
 			printf("There has to be at least 1 worker.\n");
 			printf("Using default number of workers (= %d) for this run ...\n", cotton::DEFAULT_NUM_WORKERS);
@@ -132,6 +132,24 @@ unsigned int cotton::get_threadID() {
 }
 
 /**
+Sets the CPU affinity mask of the thread with given core_id
+
+@param thread_to_map The target thread which we want to bind
+@param core_id The target core we want the target thread to bind to
+@return 0 if success or nonzero error number if error encountered
+**/
+unsigned int cotton::bind_thread_to_core(pthread_t thread_to_map, int core_id) {
+	int num_cores = sysconf(_SC_NPROCESSORS_ONLN);
+	assert(!(core_id < 0 || core_id >= num_cores));
+
+	cpu_set_t cpuset;
+	CPU_ZERO(&cpuset);
+	CPU_SET(core_id, &cpuset);
+
+	return pthread_setaffinity_np(thread_to_map, sizeof(cpu_set_t), &cpuset);
+}
+
+/**
 Encapsulates the work that a thread does once spawing which includes setting the per thread ID and spinning until the thread finds a task to execute
 
 @param args Contains the argument related to the ID of the calling thread
@@ -139,6 +157,8 @@ Encapsulates the work that a thread does once spawing which includes setting the
 **/
 void* cotton::worker_routine(void *args) {
 	unsigned int thread_id = *(unsigned int *)args;
+	int num_cores = sysconf(_SC_NPROCESSORS_ONLN);
+	cotton::bind_thread_to_core(pthread_self(), thread_id % num_cores);
 	assert((pthread_setspecific(cotton::THREAD_KEY, &thread_id) == 0));
 	while( !cotton::SHUTDOWN ) {
 		cotton::find_and_execute_task();
@@ -218,10 +238,14 @@ void cotton::init_runtime() {
 
 	cotton::NUM_WORKERS = cotton::thread_pool_size();
 
+	int num_cores = sysconf(_SC_NPROCESSORS_ONLN);
+	assert(cotton::NUM_WORKERS <= num_cores && "Energy Efficiency can be observed only when number of workers are less than the number of cores on system");
+
 	assert((pthread_once(&cotton::THREAD_KEY_ONCE, cotton::lib_key_init) == 0));
 
 	unsigned int *args = (unsigned int *)malloc( sizeof(unsigned int) * cotton::NUM_WORKERS );
 	*(args) = 0;
+	cotton::bind_thread_to_core(pthread_self(), 0);
 
 	assert((pthread_setspecific(cotton::THREAD_KEY, args) == 0));
 
