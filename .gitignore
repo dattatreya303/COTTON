@@ -60,4 +60,6 @@
 ./.floo*
 
 # Project-specific executables
-./nqueens
+./Benchmarks/nqueens
+./Benchmarks/qsort
+./Benchmarks/fib_reducer

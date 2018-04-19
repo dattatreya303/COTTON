@@ -484,6 +484,11 @@ void cotton::workload_down_check(int worker_id) {
 	}
 }
 
+/**
+Checks the minimum and maximum frequency supported by cpu cores of the system, and sets the cpu frequency thresholds for tempo control accordingly.
+
+@return Void
+**/
 void cotton::set_supported_cpu_frequencies() {
 	
 	std::ifstream fin_max("/sys/devices/system/cpu/cpufreq/policy0/cpuinfo_max_freq");

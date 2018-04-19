@@ -17,4 +17,4 @@ cotton-runtime.o: cotton-runtime.cpp cotton-runtime.h cotton.h
 	g++ -c cotton-runtime.cpp ${CPPFLAGS} ${LDFLAGS}
 
 clean:
-	-rm -f cotton-runtime.o nqueens qsort fib_reducer
+	-rm -f cotton-runtime.o ./benchmarks/nqueens ./benchmarks/qsort ./benchmarks/fib_reducer
