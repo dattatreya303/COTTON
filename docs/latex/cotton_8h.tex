@@ -14,18 +14,23 @@ Header for C\+O\+T\+T\+ON interface.
 {\ttfamily \#include $<$pthread.\+h$>$}\newline
 {\ttfamily \#include $<$stdexcept$>$}\newline
 {\ttfamily \#include $<$functional$>$}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{cotton_8h_ab413e05e91ff6e4918aa9aa63d52b2ff}{cotton\+::end\+\_\+finish}} ()
 \item 
 void \mbox{\hyperlink{cotton_8h_ae391d31cf35efbf9e644206001d7fc6d}{cotton\+::init\+\_\+runtime}} ()
 \item 
 void \mbox{\hyperlink{cotton_8h_aae085573bf6951565449c429ac59c43c}{cotton\+::start\+\_\+finish}} ()
 \item 
-void \mbox{\hyperlink{cotton_8h_a3a7e86503c4fd0c48774e2ffc43d947a}{cotton\+::async}} (std\+::function$<$ void()$>$ \&\&lambda)
-\item 
-void \mbox{\hyperlink{cotton_8h_ab413e05e91ff6e4918aa9aa63d52b2ff}{cotton\+::end\+\_\+finish}} ()
-\item 
 void \mbox{\hyperlink{cotton_8h_a3061b2929300562580e4bf1416372c3f}{cotton\+::finalize\+\_\+runtime}} ()
+\item 
+unsigned int \mbox{\hyperlink{cotton_8h_ab1ebe1f6821a54e7c4911c22acebff8a}{cotton\+::get\+\_\+thread\+ID}} ()
+\item 
+unsigned int \mbox{\hyperlink{cotton_8h_a0b32dd3b6a3d126e107d5c77ec1f4cc3}{cotton\+::thread\+\_\+pool\+\_\+size}} ()
+\item 
+void \mbox{\hyperlink{cotton_8h_a3a7e86503c4fd0c48774e2ffc43d947a}{cotton\+::async}} (std\+::function$<$ void()$>$ \&\&lambda)
 \end{DoxyCompactItemize}
 
 
@@ -73,6 +78,17 @@ Waits till all the threads that have been spawed have finished executing the tas
 \begin{DoxyReturn}{Returns}
 Void 
 \end{DoxyReturn}
+\mbox{\Hypertarget{cotton_8h_file_ab1ebe1f6821a54e7c4911c22acebff8a}\label{cotton_8h_file_ab1ebe1f6821a54e7c4911c22acebff8a}} 
+\index{cotton.\+h@{cotton.\+h}!get\+\_\+thread\+ID@{get\+\_\+thread\+ID}}
+\index{get\+\_\+thread\+ID@{get\+\_\+thread\+ID}!cotton.\+h@{cotton.\+h}}
+\subsubsection{\texorpdfstring{get\+\_\+thread\+I\+D()}{get\_threadID()}}
+{\footnotesize\ttfamily unsigned int cotton\+::get\+\_\+thread\+ID (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Gives the calling thread\textquotesingle{}s ID used to access the per thread deque data structure
+
+\begin{DoxyReturn}{Returns}
+Thread ID of the calling thread 
+\end{DoxyReturn}
 \mbox{\Hypertarget{cotton_8h_file_ae391d31cf35efbf9e644206001d7fc6d}\label{cotton_8h_file_ae391d31cf35efbf9e644206001d7fc6d}} 
 \index{cotton.\+h@{cotton.\+h}!init\+\_\+runtime@{init\+\_\+runtime}}
 \index{init\+\_\+runtime@{init\+\_\+runtime}!cotton.\+h@{cotton.\+h}}
@@ -94,4 +110,15 @@ Initializes the value of the finish counter
 
 \begin{DoxyReturn}{Returns}
 Void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{cotton_8h_file_a0b32dd3b6a3d126e107d5c77ec1f4cc3}\label{cotton_8h_file_a0b32dd3b6a3d126e107d5c77ec1f4cc3}} 
+\index{cotton.\+h@{cotton.\+h}!thread\+\_\+pool\+\_\+size@{thread\+\_\+pool\+\_\+size}}
+\index{thread\+\_\+pool\+\_\+size@{thread\+\_\+pool\+\_\+size}!cotton.\+h@{cotton.\+h}}
+\subsubsection{\texorpdfstring{thread\+\_\+pool\+\_\+size()}{thread\_pool\_size()}}
+{\footnotesize\ttfamily unsigned int cotton\+::thread\+\_\+pool\+\_\+size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Wrapper to get the value mentioned in the environment variable C\+O\+T\+T\+O\+N\+\_\+\+W\+O\+R\+K\+E\+RS
+
+\begin{DoxyReturn}{Returns}
+Number of threads to use at max (default = 1) 
 \end{DoxyReturn}

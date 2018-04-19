@@ -10,6 +10,7 @@ namespace cotton {
 	#define NUM_THRESHOLDS 4
 	#define CACHE_LINE_SIZE 64
 	
+	bool EEFC_MODE = false;
 	volatile bool SHUTDOWN;
 	pthread_t* thread = NULL;
 	pthread_key_t THREAD_KEY;
@@ -100,6 +101,7 @@ namespace cotton {
 	
 	void free_all();
 	void lib_key_init();
+	void set_eefc_mode();
 	void find_and_execute_task();
 	void* grab_task_from_runtime();
 	void* worker_routine(void *args);

@@ -31,32 +31,42 @@ void \mbox{\hyperlink{cotton-runtime_8h_ad169fe95f5f03bdfa569dd365dde6c12}{cotto
 \item 
 void \mbox{\hyperlink{cotton-runtime_8h_a4ea9036584fa3bd86fe8626dc05d295f}{cotton\+::lib\+\_\+key\+\_\+init}} ()
 \item 
-unsigned int \mbox{\hyperlink{cotton-runtime_8h_ab1ebe1f6821a54e7c4911c22acebff8a}{cotton\+::get\+\_\+thread\+ID}} ()
+void \mbox{\hyperlink{cotton-runtime_8h_aac28063e6fe138ec81c444e83b7f6ffc}{cotton\+::set\+\_\+eefc\+\_\+mode}} ()
 \item 
 void \mbox{\hyperlink{cotton-runtime_8h_af22caee9434a7e06a09b2f9a0417c1eb}{cotton\+::find\+\_\+and\+\_\+execute\+\_\+task}} ()
 \item 
 void $\ast$ \mbox{\hyperlink{cotton-runtime_8h_a1cae25b77bd884fcdcf2532663056d22}{cotton\+::grab\+\_\+task\+\_\+from\+\_\+runtime}} ()
 \item 
-unsigned int \mbox{\hyperlink{cotton-runtime_8h_a0b32dd3b6a3d126e107d5c77ec1f4cc3}{cotton\+::thread\+\_\+pool\+\_\+size}} ()
-\item 
 void $\ast$ \mbox{\hyperlink{cotton-runtime_8h_a361c34063ecb68cf02d417074decb12b}{cotton\+::worker\+\_\+routine}} (void $\ast$args)
+\item 
+\mbox{\Hypertarget{cotton-runtime_8h_a399a666655a31ad2b3c8eae4b1d6d707}\label{cotton-runtime_8h_a399a666655a31ad2b3c8eae4b1d6d707}} 
+void {\bfseries cotton\+::set\+\_\+supported\+\_\+cpu\+\_\+frequencies} ()
 \item 
 void \mbox{\hyperlink{cotton-runtime_8h_a803285410d295a5f32238ad2dfc241a5}{cotton\+::push\+\_\+task\+\_\+to\+\_\+runtime}} (void $\ast$task)
 \item 
+unsigned int \mbox{\hyperlink{cotton-runtime_8h_a325b0808848e793c747e547f6e660efd}{cotton\+::bind\+\_\+thread\+\_\+to\+\_\+core}} (pthread\+\_\+t thread\+\_\+to\+\_\+map, int core\+\_\+id)
+\item 
 void \mbox{\hyperlink{cotton-runtime_8h_ae91d8cfb1b831a971eafccb512c17a15}{cotton\+::\+UP}} (int worker\+\_\+id)
 \item 
-void \mbox{\hyperlink{cotton-runtime_8h_a7ed5b064cd66a53e2f01dc2c18c7e8d5}{cotton\+::\+UP}} (int victim\+\_\+worker\+\_\+id, int thief\+\_\+worker\+\_\+id)
-\item 
 void \mbox{\hyperlink{cotton-runtime_8h_a522a9376ec51306eab1724b2a9a1cf93}{cotton\+::\+D\+O\+WN}} (int worker\+\_\+id)
+\item 
+void \mbox{\hyperlink{cotton-runtime_8h_a5b31e108dfdf198f421dab591cb009fc}{cotton\+::\+D\+O\+WN}} (int victim\+\_\+worker\+\_\+id, int thief\+\_\+worker\+\_\+id)
 \item 
 void \mbox{\hyperlink{cotton-runtime_8h_af567cb17aa6a653d9a567fb65f40b716}{cotton\+::begin\+\_\+victim\+\_\+thief\+\_\+relationship}} (int victim\+\_\+worker\+\_\+id, int thief\+\_\+worker\+\_\+id)
 \item 
 void \mbox{\hyperlink{cotton-runtime_8h_a2faa5f098d14f1a3319101ff735bf016}{cotton\+::end\+\_\+victim\+\_\+thief\+\_\+relationship}} (int victim\+\_\+worker\+\_\+id, int thief\+\_\+worker\+\_\+id)
 \item 
 void \mbox{\hyperlink{cotton-runtime_8h_a824fc414cfcf95d0d928f9736490ab41}{cotton\+::end\+\_\+victim}} (int victim\+\_\+worker\+\_\+id)
+\item 
+void \mbox{\hyperlink{cotton-runtime_8h_aaffd00340decbd3395986d865ecc2660}{cotton\+::workload\+\_\+up\+\_\+check}} (int worker\+\_\+id)
+\item 
+void \mbox{\hyperlink{cotton-runtime_8h_adb1488633725b43a252652796faa2e98}{cotton\+::workload\+\_\+down\+\_\+check}} (int worker\+\_\+id)
 \end{DoxyCompactItemize}
 \subsection*{Variables}
 \begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{cotton-runtime_8h_a096f85b6b6bdb5108f8534037c15e139}\label{cotton-runtime_8h_a096f85b6b6bdb5108f8534037c15e139}} 
+bool {\bfseries cotton\+::\+E\+E\+F\+C\+\_\+\+M\+O\+DE} = false
 \item 
 \mbox{\Hypertarget{cotton-runtime_8h_ad72043de8ba79ff3385abd67fd1b15bf}\label{cotton-runtime_8h_ad72043de8ba79ff3385abd67fd1b15bf}} 
 volatile bool {\bfseries cotton\+::\+S\+H\+U\+T\+D\+O\+WN}
@@ -87,6 +97,9 @@ pthread\+\_\+once\+\_\+t {\bfseries cotton\+::\+T\+H\+R\+E\+A\+D\+\_\+\+K\+E\+Y\
 \item 
 \mbox{\Hypertarget{cotton-runtime_8h_a0fa66e316877ba57e881d9c4fd193765}\label{cotton-runtime_8h_a0fa66e316877ba57e881d9c4fd193765}} 
 pthread\+\_\+mutex\+\_\+t {\bfseries cotton\+::\+F\+I\+N\+I\+S\+H\+\_\+\+M\+U\+T\+EX} = P\+T\+H\+R\+E\+A\+D\+\_\+\+M\+U\+T\+E\+X\+\_\+\+I\+N\+I\+T\+I\+A\+L\+I\+Z\+ER
+\item 
+\mbox{\Hypertarget{cotton-runtime_8h_a9495289cfdde14af0e4088dd212b892c}\label{cotton-runtime_8h_a9495289cfdde14af0e4088dd212b892c}} 
+double {\bfseries cotton\+::\+C\+P\+U\+\_\+\+F\+R\+E\+Q\+U\+E\+N\+C\+I\+E\+S\+\_\+\+S\+U\+P\+P\+O\+R\+T\+ED} \mbox{[}$\,$\mbox{]} = \{0\}
 \item 
 \mbox{\Hypertarget{cotton-runtime_8h_a90bfbca05b124b3b7e18e43d3354ae4e}\label{cotton-runtime_8h_a90bfbca05b124b3b7e18e43d3354ae4e}} 
 Worker $\ast$ {\bfseries cotton\+::\+W\+O\+R\+K\+E\+R\+\_\+\+A\+R\+R\+AY}
@@ -121,10 +134,28 @@ Begin a victim-\/thief relationship by\+:
 \begin{DoxyReturn}{Returns}
 Void 
 \end{DoxyReturn}
+\mbox{\Hypertarget{cotton-runtime_8h_file_a325b0808848e793c747e547f6e660efd}\label{cotton-runtime_8h_file_a325b0808848e793c747e547f6e660efd}} 
+\index{cotton-\/runtime.\+h@{cotton-\/runtime.\+h}!bind\+\_\+thread\+\_\+to\+\_\+core@{bind\+\_\+thread\+\_\+to\+\_\+core}}
+\index{bind\+\_\+thread\+\_\+to\+\_\+core@{bind\+\_\+thread\+\_\+to\+\_\+core}!cotton-\/runtime.\+h@{cotton-\/runtime.\+h}}
+\subsubsection{\texorpdfstring{bind\+\_\+thread\+\_\+to\+\_\+core()}{bind\_thread\_to\_core()}}
+{\footnotesize\ttfamily unsigned int cotton\+::bind\+\_\+thread\+\_\+to\+\_\+core (\begin{DoxyParamCaption}\item[{pthread\+\_\+t}]{thread\+\_\+to\+\_\+map,  }\item[{int}]{core\+\_\+id }\end{DoxyParamCaption})}
+
+Sets the C\+PU affinity mask of the thread with given core\+\_\+id
+
+
+\begin{DoxyParams}{Parameters}
+{\em thread\+\_\+to\+\_\+map} & The target thread which we want to bind \\
+\hline
+{\em core\+\_\+id} & The target core we want the target thread to bind to \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 if success or nonzero error number if error encountered 
+\end{DoxyReturn}
 \mbox{\Hypertarget{cotton-runtime_8h_file_a522a9376ec51306eab1724b2a9a1cf93}\label{cotton-runtime_8h_file_a522a9376ec51306eab1724b2a9a1cf93}} 
 \index{cotton-\/runtime.\+h@{cotton-\/runtime.\+h}!D\+O\+WN@{D\+O\+WN}}
 \index{D\+O\+WN@{D\+O\+WN}!cotton-\/runtime.\+h@{cotton-\/runtime.\+h}}
-\subsubsection{\texorpdfstring{D\+O\+W\+N()}{DOWN()}}
+\subsubsection{\texorpdfstring{D\+O\+W\+N()}{DOWN()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily void cotton\+::\+D\+O\+WN (\begin{DoxyParamCaption}\item[{int}]{worker\+\_\+id }\end{DoxyParamCaption})}
 
 Decrease the C\+PU frequency of the worker by one level.
@@ -132,6 +163,24 @@ Decrease the C\+PU frequency of the worker by one level.
 
 \begin{DoxyParams}{Parameters}
 {\em worker\+\_\+id} & Worker\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{cotton-runtime_8h_file_a5b31e108dfdf198f421dab591cb009fc}\label{cotton-runtime_8h_file_a5b31e108dfdf198f421dab591cb009fc}} 
+\index{cotton-\/runtime.\+h@{cotton-\/runtime.\+h}!D\+O\+WN@{D\+O\+WN}}
+\index{D\+O\+WN@{D\+O\+WN}!cotton-\/runtime.\+h@{cotton-\/runtime.\+h}}
+\subsubsection{\texorpdfstring{D\+O\+W\+N()}{DOWN()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void cotton\+::\+D\+O\+WN (\begin{DoxyParamCaption}\item[{int}]{worker\+\_\+id\+\_\+1,  }\item[{int}]{worker\+\_\+id\+\_\+2 }\end{DoxyParamCaption})}
+
+Decrease the C\+PU frequency of Worker 2 by one level below Worker 1.
+
+
+\begin{DoxyParams}{Parameters}
+{\em worker\+\_\+id\+\_\+1} & Worker 1 \\
+\hline
+{\em worker\+\_\+id\+\_\+2} & Worker 2\\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -197,17 +246,6 @@ Call free() on everything allocated on heap.
 \begin{DoxyReturn}{Returns}
 Void 
 \end{DoxyReturn}
-\mbox{\Hypertarget{cotton-runtime_8h_file_ab1ebe1f6821a54e7c4911c22acebff8a}\label{cotton-runtime_8h_file_ab1ebe1f6821a54e7c4911c22acebff8a}} 
-\index{cotton-\/runtime.\+h@{cotton-\/runtime.\+h}!get\+\_\+thread\+ID@{get\+\_\+thread\+ID}}
-\index{get\+\_\+thread\+ID@{get\+\_\+thread\+ID}!cotton-\/runtime.\+h@{cotton-\/runtime.\+h}}
-\subsubsection{\texorpdfstring{get\+\_\+thread\+I\+D()}{get\_threadID()}}
-{\footnotesize\ttfamily unsigned int cotton\+::get\+\_\+thread\+ID (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-Gives the calling thread\textquotesingle{}s ID used to access the per thread deque data structure
-
-\begin{DoxyReturn}{Returns}
-Thread ID of the calling thread 
-\end{DoxyReturn}
 \mbox{\Hypertarget{cotton-runtime_8h_file_a1cae25b77bd884fcdcf2532663056d22}\label{cotton-runtime_8h_file_a1cae25b77bd884fcdcf2532663056d22}} 
 \index{cotton-\/runtime.\+h@{cotton-\/runtime.\+h}!grab\+\_\+task\+\_\+from\+\_\+runtime@{grab\+\_\+task\+\_\+from\+\_\+runtime}}
 \index{grab\+\_\+task\+\_\+from\+\_\+runtime@{grab\+\_\+task\+\_\+from\+\_\+runtime}!cotton-\/runtime.\+h@{cotton-\/runtime.\+h}}
@@ -243,21 +281,21 @@ Pushes a task encapsulated in a lambda function into the calling thread\textquot
 \begin{DoxyReturn}{Returns}
 Void 
 \end{DoxyReturn}
-\mbox{\Hypertarget{cotton-runtime_8h_file_a0b32dd3b6a3d126e107d5c77ec1f4cc3}\label{cotton-runtime_8h_file_a0b32dd3b6a3d126e107d5c77ec1f4cc3}} 
-\index{cotton-\/runtime.\+h@{cotton-\/runtime.\+h}!thread\+\_\+pool\+\_\+size@{thread\+\_\+pool\+\_\+size}}
-\index{thread\+\_\+pool\+\_\+size@{thread\+\_\+pool\+\_\+size}!cotton-\/runtime.\+h@{cotton-\/runtime.\+h}}
-\subsubsection{\texorpdfstring{thread\+\_\+pool\+\_\+size()}{thread\_pool\_size()}}
-{\footnotesize\ttfamily unsigned int cotton\+::thread\+\_\+pool\+\_\+size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+\mbox{\Hypertarget{cotton-runtime_8h_file_aac28063e6fe138ec81c444e83b7f6ffc}\label{cotton-runtime_8h_file_aac28063e6fe138ec81c444e83b7f6ffc}} 
+\index{cotton-\/runtime.\+h@{cotton-\/runtime.\+h}!set\+\_\+eefc\+\_\+mode@{set\+\_\+eefc\+\_\+mode}}
+\index{set\+\_\+eefc\+\_\+mode@{set\+\_\+eefc\+\_\+mode}!cotton-\/runtime.\+h@{cotton-\/runtime.\+h}}
+\subsubsection{\texorpdfstring{set\+\_\+eefc\+\_\+mode()}{set\_eefc\_mode()}}
+{\footnotesize\ttfamily void cotton\+::set\+\_\+eefc\+\_\+mode (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-Wrapper to get the value mentioned in the environment variable C\+O\+T\+T\+O\+N\+\_\+\+W\+O\+R\+K\+E\+RS
+Set whether the runtime is to be energy efficient at the runtime variable {\ttfamily C\+O\+T\+T\+O\+N\+\_\+\+E\+E\+F\+C\+\_\+\+M\+O\+DE}. E\+E\+F\+C\+\_\+\+M\+O\+DE can be set at runtime using the environment variable C\+O\+T\+T\+O\+N\+\_\+\+E\+E\+F\+C\+\_\+\+M\+O\+DE.
 
 \begin{DoxyReturn}{Returns}
-Number of threads to use at max (default = 1) 
+Void 
 \end{DoxyReturn}
 \mbox{\Hypertarget{cotton-runtime_8h_file_ae91d8cfb1b831a971eafccb512c17a15}\label{cotton-runtime_8h_file_ae91d8cfb1b831a971eafccb512c17a15}} 
 \index{cotton-\/runtime.\+h@{cotton-\/runtime.\+h}!UP@{UP}}
 \index{UP@{UP}!cotton-\/runtime.\+h@{cotton-\/runtime.\+h}}
-\subsubsection{\texorpdfstring{U\+P()}{UP()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+\subsubsection{\texorpdfstring{U\+P()}{UP()}}
 {\footnotesize\ttfamily void cotton\+::\+UP (\begin{DoxyParamCaption}\item[{int}]{worker\+\_\+id }\end{DoxyParamCaption})}
 
 Increase the C\+PU frequency of the worker by one level.
@@ -265,24 +303,6 @@ Increase the C\+PU frequency of the worker by one level.
 
 \begin{DoxyParams}{Parameters}
 {\em worker\+\_\+id} & Worker\\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-Void 
-\end{DoxyReturn}
-\mbox{\Hypertarget{cotton-runtime_8h_file_a7ed5b064cd66a53e2f01dc2c18c7e8d5}\label{cotton-runtime_8h_file_a7ed5b064cd66a53e2f01dc2c18c7e8d5}} 
-\index{cotton-\/runtime.\+h@{cotton-\/runtime.\+h}!UP@{UP}}
-\index{UP@{UP}!cotton-\/runtime.\+h@{cotton-\/runtime.\+h}}
-\subsubsection{\texorpdfstring{U\+P()}{UP()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily void cotton\+::\+UP (\begin{DoxyParamCaption}\item[{int}]{worker\+\_\+id\+\_\+1,  }\item[{int}]{worker\+\_\+id\+\_\+2 }\end{DoxyParamCaption})}
-
-Increase the C\+PU frequency of Worker 2 by one level above Worker 1.
-
-
-\begin{DoxyParams}{Parameters}
-{\em worker\+\_\+id\+\_\+1} & Worker 1 \\
-\hline
-{\em worker\+\_\+id\+\_\+2} & Worker 2\\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -299,6 +319,38 @@ Encapsulates the work that a thread does once spawing which includes setting the
 
 \begin{DoxyParams}{Parameters}
 {\em args} & Contains the argument related to the ID of the calling thread \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{cotton-runtime_8h_file_adb1488633725b43a252652796faa2e98}\label{cotton-runtime_8h_file_adb1488633725b43a252652796faa2e98}} 
+\index{cotton-\/runtime.\+h@{cotton-\/runtime.\+h}!workload\+\_\+down\+\_\+check@{workload\+\_\+down\+\_\+check}}
+\index{workload\+\_\+down\+\_\+check@{workload\+\_\+down\+\_\+check}!cotton-\/runtime.\+h@{cotton-\/runtime.\+h}}
+\subsubsection{\texorpdfstring{workload\+\_\+down\+\_\+check()}{workload\_down\_check()}}
+{\footnotesize\ttfamily void cotton\+::workload\+\_\+down\+\_\+check (\begin{DoxyParamCaption}\item[{int}]{worker\+\_\+id }\end{DoxyParamCaption})}
+
+Checks the current worker\textquotesingle{}s deque size and compares it with it\textquotesingle{}s threshold value. If it is found to be greater then it decreases the frequency of the core on which the worker is running.
+
+
+\begin{DoxyParams}{Parameters}
+{\em worker\+\_\+id} & Worker\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{cotton-runtime_8h_file_aaffd00340decbd3395986d865ecc2660}\label{cotton-runtime_8h_file_aaffd00340decbd3395986d865ecc2660}} 
+\index{cotton-\/runtime.\+h@{cotton-\/runtime.\+h}!workload\+\_\+up\+\_\+check@{workload\+\_\+up\+\_\+check}}
+\index{workload\+\_\+up\+\_\+check@{workload\+\_\+up\+\_\+check}!cotton-\/runtime.\+h@{cotton-\/runtime.\+h}}
+\subsubsection{\texorpdfstring{workload\+\_\+up\+\_\+check()}{workload\_up\_check()}}
+{\footnotesize\ttfamily void cotton\+::workload\+\_\+up\+\_\+check (\begin{DoxyParamCaption}\item[{int}]{worker\+\_\+id }\end{DoxyParamCaption})}
+
+Checks the current worker\textquotesingle{}s deque size and compares it with it\textquotesingle{}s threshold value. If it is found to be greater then it increases the frequency of the core on which the worker is running.
+
+
+\begin{DoxyParams}{Parameters}
+{\em worker\+\_\+id} & Worker\\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}

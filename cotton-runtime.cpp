@@ -96,7 +96,7 @@ unsigned int cotton::thread_pool_size() {
 	if( envData != NULL ) {
 		numWorkers = strtol(envData, NULL, 10);
 		if( numWorkers <= 0 ) {
-			printf("COTTON_WORKERS only accepts positive integers greater.\n");
+			printf("COTTON_WORKERS only accepts positive integers.\n");
 			printf("There has to be at least 1 worker.\n");
 			printf("Using default number of workers (= %d) for this run ...\n", cotton::DEFAULT_NUM_WORKERS);
 			numWorkers = cotton::DEFAULT_NUM_WORKERS;
@@ -156,8 +156,12 @@ Encapsulates the work that a thread does once spawing which includes setting the
 **/
 void* cotton::worker_routine(void *args) {
 	unsigned int thread_id = *(unsigned int *)args;
-	int num_cores = sysconf(_SC_NPROCESSORS_ONLN);
-	cotton::bind_thread_to_core(pthread_self(), thread_id % num_cores);
+
+	if (cotton::EEFC_MODE) {
+		int num_cores = sysconf(_SC_NPROCESSORS_ONLN);
+		cotton::bind_thread_to_core(pthread_self(), thread_id % num_cores);
+	}
+
 	assert((pthread_setspecific(cotton::THREAD_KEY, &thread_id) == 0));
 	while( !cotton::SHUTDOWN ) {
 		cotton::find_and_execute_task();
@@ -188,7 +192,9 @@ Pushes a task encapsulated in a lambda function into the calling thread's data s
 void cotton::push_task_to_runtime(void* task) {
 	unsigned int current_worker_id = cotton::get_threadID();
 	cotton::WORKER_ARRAY[ current_worker_id ].worker_deque->push_to_deque( task );
-	cotton::workload_up_check(current_worker_id);
+
+	if (cotton::EEFC_MODE)
+		cotton::workload_up_check(current_worker_id);
 }
 
 /**
@@ -206,23 +212,31 @@ void* cotton::grab_task_from_runtime() {
 	assert((pthread_mutex_unlock( &cotton::DEQUE_MUTEX[ current_worker_id ] ) == 0));
 	
 	if( grabbed_task_ptr == NULL ) {
-		if (cotton::WORKER_ARRAY[current_worker_id].is_victim())
-			cotton::end_victim(current_worker_id);
+
+		if (cotton::EEFC_MODE)
+			if (cotton::WORKER_ARRAY[current_worker_id].is_victim())
+				cotton::end_victim(current_worker_id);
+
 		unsigned int random_worker_id = current_worker_id;
 		while( random_worker_id == current_worker_id ) {
 			random_worker_id = rand() % cotton::NUM_WORKERS;
 		}
 		assert((pthread_mutex_lock( &cotton::DEQUE_MUTEX[ random_worker_id ] ) == 0));
 		grabbed_task_ptr = cotton::WORKER_ARRAY[ random_worker_id ].worker_deque->steal_from_deque();
-		if (grabbed_task_ptr != NULL) {
-			cotton::begin_victim_thief_relationship(random_worker_id, current_worker_id);
-			// random is victim right?
-			cotton::workload_down_check(random_worker_id);
+
+		if (cotton::EEFC_MODE) {
+			if (grabbed_task_ptr != NULL) {
+				cotton::begin_victim_thief_relationship(random_worker_id, current_worker_id);
+				// random is victim right?
+				cotton::workload_down_check(random_worker_id);
+			}
 		}
+
 		assert((pthread_mutex_unlock( &cotton::DEQUE_MUTEX[ random_worker_id ] ) == 0));
 	}
 	else {
-		cotton::workload_down_check(current_worker_id);
+		if (cotton::EEFC_MODE)
+			cotton::workload_down_check(current_worker_id);
 	}
 
 	return grabbed_task_ptr;
@@ -235,22 +249,30 @@ Spawns all the required threads after initializing the pthread key and setting t
 **/
 void cotton::init_runtime() {
 
+	cotton::set_eefc_mode();
+
 	int num_cores = sysconf(_SC_NPROCESSORS_ONLN);
-	cotton::set_supported_cpu_frequencies();
+
+	if (cotton::EEFC_MODE) {
+		cotton::set_supported_cpu_frequencies();
+	}
 
 	cotton::NUM_WORKERS = cotton::thread_pool_size();
 
-	assert(cotton::NUM_WORKERS <= num_cores && "Energy Efficiency can be observed only when number of workers are less than the number of cores on system");
+	if (cotton::EEFC_MODE) {
+		assert(cotton::NUM_WORKERS <= num_cores && "Energy Efficiency can be observed only when number of workers are less than the number of cores on system");
+	}
 
 	assert((pthread_once(&cotton::THREAD_KEY_ONCE, cotton::lib_key_init) == 0));
 
 	unsigned int *args = (unsigned int *)malloc( sizeof(unsigned int) * cotton::NUM_WORKERS );
 	*(args) = 0;
-	cotton::bind_thread_to_core(pthread_self(), 0);
+
+	if (cotton::EEFC_MODE)
+		cotton::bind_thread_to_core(pthread_self(), 0);
 
 	assert((pthread_setspecific(cotton::THREAD_KEY, args) == 0));
 
-	// cotton::DEQUE_ARRAY = new cotton::Deque[cotton::NUM_WORKERS];	
 	cotton::WORKER_ARRAY = new cotton::Worker[cotton::NUM_WORKERS];	
 	cotton::thread = (pthread_t *)malloc(sizeof(pthread_t) * cotton::NUM_WORKERS);
 	cotton::DEQUE_MUTEX = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * cotton::NUM_WORKERS);
@@ -546,4 +568,16 @@ void cotton::DOWN(int worker_id_1, int worker_id_2) {
 	double new_speed = cotton::CPU_FREQUENCIES_SUPPORTED[ cotton::WORKER_ARRAY[ worker_id_2 ].current_frequency_index];
 	fout << new_speed;
 	return;
+}
+
+/**
+Set whether the runtime is to be energy efficient at the runtime variable `COTTON_EEFC_MODE`.
+EEFC_MODE can be set at runtime using the environment variable COTTON_EEFC_MODE.
+
+@return Void
+**/
+void cotton::set_eefc_mode() {
+	char * envData = std::getenv("COTTON_EEFC_MODE");
+	if( envData != NULL )
+		cotton::EEFC_MODE = strtol(envData, NULL, 10);
 }

@@ -80,21 +80,26 @@ $(function() {
 <code>#include &lt;pthread.h&gt;</code><br />
 <code>#include &lt;stdexcept&gt;</code><br />
 <code>#include &lt;functional&gt;</code><br />
+<code>#include &lt;fstream&gt;</code><br />
 </div>
 <p><a href="cotton_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:ab413e05e91ff6e4918aa9aa63d52b2ff"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cotton_8h.html#ab413e05e91ff6e4918aa9aa63d52b2ff">cotton::end_finish</a> ()</td></tr>
+<tr class="separator:ab413e05e91ff6e4918aa9aa63d52b2ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae391d31cf35efbf9e644206001d7fc6d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cotton_8h.html#ae391d31cf35efbf9e644206001d7fc6d">cotton::init_runtime</a> ()</td></tr>
 <tr class="separator:ae391d31cf35efbf9e644206001d7fc6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aae085573bf6951565449c429ac59c43c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cotton_8h.html#aae085573bf6951565449c429ac59c43c">cotton::start_finish</a> ()</td></tr>
 <tr class="separator:aae085573bf6951565449c429ac59c43c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3a7e86503c4fd0c48774e2ffc43d947a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cotton_8h.html#a3a7e86503c4fd0c48774e2ffc43d947a">cotton::async</a> (std::function&lt; void()&gt; &amp;&amp;lambda)</td></tr>
-<tr class="separator:a3a7e86503c4fd0c48774e2ffc43d947a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab413e05e91ff6e4918aa9aa63d52b2ff"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cotton_8h.html#ab413e05e91ff6e4918aa9aa63d52b2ff">cotton::end_finish</a> ()</td></tr>
-<tr class="separator:ab413e05e91ff6e4918aa9aa63d52b2ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3061b2929300562580e4bf1416372c3f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cotton_8h.html#a3061b2929300562580e4bf1416372c3f">cotton::finalize_runtime</a> ()</td></tr>
 <tr class="separator:a3061b2929300562580e4bf1416372c3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1ebe1f6821a54e7c4911c22acebff8a"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cotton_8h.html#ab1ebe1f6821a54e7c4911c22acebff8a">cotton::get_threadID</a> ()</td></tr>
+<tr class="separator:ab1ebe1f6821a54e7c4911c22acebff8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b32dd3b6a3d126e107d5c77ec1f4cc3"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cotton_8h.html#a0b32dd3b6a3d126e107d5c77ec1f4cc3">cotton::thread_pool_size</a> ()</td></tr>
+<tr class="separator:a0b32dd3b6a3d126e107d5c77ec1f4cc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a7e86503c4fd0c48774e2ffc43d947a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cotton_8h.html#a3a7e86503c4fd0c48774e2ffc43d947a">cotton::async</a> (std::function&lt; void()&gt; &amp;&amp;lambda)</td></tr>
+<tr class="separator:a3a7e86503c4fd0c48774e2ffc43d947a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Header for COTTON interface. </p>
@@ -163,6 +168,25 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="file_ab1ebe1f6821a54e7c4911c22acebff8a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#file_ab1ebe1f6821a54e7c4911c22acebff8a">&#9670;&nbsp;</a></span>get_threadID()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned int cotton::get_threadID </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Gives the calling thread's ID used to access the per thread deque data structure</p>
+<dl class="section return"><dt>Returns</dt><dd>Thread ID of the calling thread </dd></dl>
+
+</div>
+</div>
 <a id="file_ae391d31cf35efbf9e644206001d7fc6d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#file_ae391d31cf35efbf9e644206001d7fc6d">&#9670;&nbsp;</a></span>init_runtime()</h2>
 
@@ -198,6 +222,25 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Initializes the value of the finish counter</p>
 <dl class="section return"><dt>Returns</dt><dd>Void </dd></dl>
+
+</div>
+</div>
+<a id="file_a0b32dd3b6a3d126e107d5c77ec1f4cc3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#file_a0b32dd3b6a3d126e107d5c77ec1f4cc3">&#9670;&nbsp;</a></span>thread_pool_size()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned int cotton::thread_pool_size </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Wrapper to get the value mentioned in the environment variable COTTON_WORKERS</p>
+<dl class="section return"><dt>Returns</dt><dd>Number of threads to use at max (default = 1) </dd></dl>
 
 </div>
 </div>
