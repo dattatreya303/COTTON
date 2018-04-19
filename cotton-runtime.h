@@ -21,6 +21,7 @@ namespace cotton {
 	const unsigned int DEFAULT_NUM_WORKERS = 1;
 	pthread_once_t THREAD_KEY_ONCE = PTHREAD_ONCE_INIT;
 	pthread_mutex_t FINISH_MUTEX = PTHREAD_MUTEX_INITIALIZER;
+	const double CPU_FREQUENCIES_SUPPORTED[] = {2.4, 2.4, 2.4, 2.4}; // use cpupower to get the list - does not work on my system though
 
 	struct Deque {
 		volatile unsigned int head;
@@ -46,6 +47,7 @@ namespace cotton {
 		}
 
 		bool isEmpty();
+		unsigned int sizeof_deque();
 		void* pop_from_deque();
 		void* steal_from_deque();
 		void push_to_deque(void *task);
@@ -70,17 +72,18 @@ namespace cotton {
 
 	struct Worker {
 		Deque* worker_deque;
-		// int size_thresholds[NUM_THRESHOLDS];
-		// int current_size_threshold_index;
-		// int current_frequency;
+		int size_thresholds[NUM_THRESHOLDS];
+		int current_size_threshold_index;
+		int current_frequency_index;
 		Thief_node* thief_list_head;
 
 		Worker() {
 			worker_deque = new Deque();
-			// for (int i=0; i<NUM_THRESHOLDS; i++) {
-			// 	size_thresholds[i] = (2 * MAX_DEQUE_SIZE * i) / (NUM_THRESHOLDS + 1);
-			// }
-			// current_frequency = -1;
+			for (int i = 0; i < NUM_THRESHOLDS; i++) {
+				size_thresholds[i] = (2 * MAX_DEQUE_SIZE * i) / (NUM_THRESHOLDS + 1);
+			}
+			current_frequency_index = 0;
+			current_size_threshold_index = 0;
 			thief_list_head = new Thief_node();
 		}
 
@@ -91,14 +94,6 @@ namespace cotton {
 		~Worker() {
 			delete worker_deque;
 			free_thief_list();
-			// Thief_node* cur_node = thief_list_head;
-			// while (cur_node->next != NULL)
-			// 	cur_node = cur_node->next;
-			// while (cur_node != thief_list_head) {
-			// 	Thief_node* temp = cur_node;
-			// 	cur_node = cur_node->prev;
-			// 	free(temp);
-			// }
 		}
 	};
 	Worker* WORKER_ARRAY;
@@ -113,12 +108,16 @@ namespace cotton {
 	void push_task_to_runtime(void *task);
 
 	// Energy efficient runtime methods.
-	void UP(int worker_id);
-	void UP(int victim_worker_id, int thief_worker_id);
+	void UP(int worker_id);	
 	void DOWN(int worker_id);
+	void DOWN(int victim_worker_id, int thief_worker_id);
 
 	// Workpath sensitive
 	void begin_victim_thief_relationship(int victim_worker_id, int thief_worker_id);
 	void end_victim_thief_relationship(int victim_worker_id, int thief_worker_id);
 	void end_victim(int victim_worker_id);
+
+	// Workload sensitive
+	void workload_up_check(int worker_id);
+	void workload_down_check(int worker_id);
 }

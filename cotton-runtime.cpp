@@ -6,6 +6,17 @@
 #include "cotton.h"
 #include "cotton-runtime.h"
 
+
+
+/**
+Evaluates the current size of the deque making use of tail and head information
+
+@return Current size of the deque
+**/
+unsigned int cotton::Deque::sizeof_deque() {
+	return abs(tail - head);
+}
+
 /**
 Pushes the task to the deque data structure after checking boundary conditions
 
@@ -29,8 +40,8 @@ Wrapper to check if the deque data structure is empty
 
 @return True if the task deque is empty and false otherwise
 **/
-bool cotton::Deque::isEmpty(){
-	if( tail == head ){
+bool cotton::Deque::isEmpty() {
+	if( tail == head ) {
 		return true;
 	}
 	return false;
@@ -158,6 +169,7 @@ Pushes a task encapsulated in a lambda function into the calling thread's data s
 void cotton::push_task_to_runtime(void* task) {
 	unsigned int current_worker_id = cotton::get_threadID();
 	cotton::WORKER_ARRAY[ current_worker_id ].worker_deque->push_to_deque( task );
+	cotton::workload_up_check(current_worker_id);
 }
 
 /**
@@ -185,9 +197,13 @@ void* cotton::grab_task_from_runtime() {
 		grabbed_task_ptr = cotton::WORKER_ARRAY[ random_worker_id ].worker_deque->steal_from_deque();
 		if (grabbed_task_ptr != NULL) {
 			cotton::begin_victim_thief_relationship(random_worker_id, current_worker_id);
+			// random is victim right?
+			cotton::workload_down_check(random_worker_id);
 		}
 		assert((pthread_mutex_unlock( &cotton::DEQUE_MUTEX[ random_worker_id ] ) == 0));
-
+	}
+	else {
+		cotton::workload_down_check(current_worker_id);
 	}
 
 	return grabbed_task_ptr;
@@ -339,7 +355,7 @@ Begin a victim-thief relationship by:
 **/
 void cotton::begin_victim_thief_relationship(int victim_worker_id, int thief_worker_id) {
 	cotton::WORKER_ARRAY[victim_worker_id].add_thief(thief_worker_id);
-	cotton::DOWN(thief_worker_id);
+	DOWN(thief_worker_id);
 }
 
 /**
@@ -351,8 +367,7 @@ Increasing the CPU frequency of all thiefs, and their thieves, recursively by on
 @return Void
 **/
 void cotton::end_victim_thief_relationship(int victim_worker_id, int thief_worker_id) {
-	// printf("** %d %d\n", victim_worker_id, thief_worker_id);
-	UP(victim_worker_id, thief_worker_id);
+	UP(thief_worker_id);
 	cotton::Thief_node* cur_node = cotton::WORKER_ARRAY[thief_worker_id].thief_list_head;
 	while (cur_node->next != NULL) {
 		cur_node = cur_node->next;
@@ -371,15 +386,55 @@ End the victim status of a worker:
 @return Void
 **/
 void cotton::end_victim(int victim_worker_id) {
-	// printf("** %d\n", victim_worker_id);
 	cotton::Thief_node* cur_node = cotton::WORKER_ARRAY[victim_worker_id].thief_list_head;
 	while (cur_node->next != NULL) {
 		cur_node = cur_node->next;
 		int thief = cur_node->thief_worker_id;
-		// printf("** %d\n", thief);
 		cotton::end_victim_thief_relationship(victim_worker_id, thief);
 	}
 	cotton::WORKER_ARRAY[victim_worker_id].free_thief_list();
+}
+
+
+/**
+Checks the current worker's deque size and compares it with it's threshold value. If it is found to be greater then it increases the frequency of the core on which the worker is running.
+
+@param worker_id Worker
+
+@return Void
+**/
+void cotton::workload_up_check(int worker_id) {
+	int current_threshold_index = cotton::WORKER_ARRAY[ worker_id ].current_size_threshold_index;
+	int current_threshold = cotton::WORKER_ARRAY[ worker_id ].size_thresholds[current_threshold_index];
+
+	if( cotton::WORKER_ARRAY[ worker_id ].worker_deque->sizeof_deque() > current_threshold ) {
+		if( current_threshold_index < NUM_THRESHOLDS - 1 ) {
+			cotton::WORKER_ARRAY[ worker_id ].current_size_threshold_index += 1;
+			UP(worker_id);
+		}
+	}
+}
+
+
+/**
+Checks the current worker's deque size and compares it with it's threshold value. If it is found to be greater then it decreases the frequency of the core on which the worker is running.
+
+@param worker_id Worker
+
+@return Void
+**/
+void cotton::workload_down_check(int worker_id) {
+	int current_threshold_index = cotton::WORKER_ARRAY[ worker_id ].current_size_threshold_index;
+	int current_threshold = cotton::WORKER_ARRAY[ worker_id ].size_thresholds[current_threshold_index];
+
+	if( cotton::WORKER_ARRAY[ worker_id ].worker_deque->sizeof_deque() < current_threshold ) {
+		if( current_threshold_index > 0 ) {
+			if( cotton::WORKER_ARRAY[ worker_id ].thief_list_head->prev != NULL ) {
+				cotton::WORKER_ARRAY[ worker_id ].current_size_threshold_index -= 1;
+				DOWN(worker_id);
+			}
+		}
+	}
 }
 
 /**
@@ -394,18 +449,6 @@ void cotton::UP(int worker_id) {
 }
 
 /**
-Increase the CPU frequency of Worker 2 by one level above Worker 1.
-
-@param worker_id_1 Worker 1
-@param worker_id_2 Worker 2
-
-@return Void
-**/
-void cotton::UP(int worker_id_1, int worker_id_2) {
-	return;
-}
-
-/**
 Decrease the CPU frequency of the worker by one level.
 
 @param worker_id Worker
@@ -413,5 +456,17 @@ Decrease the CPU frequency of the worker by one level.
 @return Void
 **/
 void cotton::DOWN(int worker_id) {
+	return;
+}
+
+/**
+Decrease the CPU frequency of Worker 2 by one level below Worker 1.
+
+@param worker_id_1 Worker 1
+@param worker_id_2 Worker 2
+
+@return Void
+**/
+void cotton::DOWN(int worker_id_1, int worker_id_2) {
 	return;
 }
