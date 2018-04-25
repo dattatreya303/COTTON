@@ -485,36 +485,33 @@ void cotton::workload_down_check(int worker_id) {
 }
 
 /**
-Checks the minimum and maximum frequency supported by cpu cores of the system, and sets the cpu frequency thresholds for tempo control accordingly.
+Checks the available frequencies supported by cpu cores of the system, and sets the cpu frequency thresholds for tempo control accordingly.
 
 @return Void
 **/
 void cotton::set_supported_cpu_frequencies() {
 	
-	std::ifstream fin_max("/sys/devices/system/cpu/cpufreq/policy0/cpuinfo_max_freq");
-	assert(fin_max && "Could not open cpuinfo_max_freq");
-	std::ifstream fin_min("/sys/devices/system/cpu/cpufreq/policy0/cpuinfo_min_freq");	
-	assert(fin_min && "Could not open cpuinfo_min_freq");
+	std::ifstream fin_available("/sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies");
+	assert(fin_available && "Could not open scaling_available_frequencies");
+
+	char* available_freq_str = (char*)malloc(sizeof(char) * 7);
+	assert(available_freq_str && "Could not allocate memory to available_freq_str");
 	
-	char* max_freq_str = (char*)malloc(sizeof(char) * 10);
-	assert(max_freq_str && "Could not allocate memory to max_freq_str");
-	double max_freq = -1;
-	fin_max >> max_freq_str;
-	max_freq = strtol(max_freq_str, NULL, 10);
-	
-	char* min_freq_str = (char*)malloc(sizeof(char) * 10);
-	assert(min_freq_str && "Could not allocate memory to min_freq_str");
-	double min_freq = -1;
-	fin_min >> min_freq_str;
-	min_freq = strtol(min_freq_str, NULL, 10);
-	
-	int num_cores = sysconf(_SC_NPROCESSORS_ONLN);
-	for(int i = 0; i < num_cores; i++) {
-		cotton::CPU_FREQUENCIES_SUPPORTED[i] = min_freq + ((max_freq - min_freq) * ((double)i/3));
+	int counter = 0, global_counter = 0;
+	while(true) {
+		fin_available >> available_freq_str;
+		if( fin_available.eof() ) {
+			break;
+		}
+		if( global_counter % 5 == 0 ) {
+			int current_frequency_read = strtol(available_freq_str, NULL, 10);
+			cotton::CPU_FREQUENCIES_SUPPORTED[counter] = current_frequency_read;
+			counter += 1;
+		}
+		global_counter += 1;
 	}
-	
-	fin_max.close();
-	fin_min.close();
+
+	fin_available.close();
 }
 
 /**
@@ -528,7 +525,7 @@ void cotton::UP(int worker_id) {
 	if( cotton::WORKER_ARRAY[ worker_id ].current_frequency_index == (sizeof(cotton::CPU_FREQUENCIES_SUPPORTED)/sizeof(double) - 1) ) {
 		return;
 	}
-	std::ofstream fout("/sys/devices/system/cpu/cpufreq/policy" + std::to_string(worker_id) + "/scaling_setspeed");
+	std::ofstream fout("/sys/devices/system/cpu/cpu" + std::to_string(worker_id) + "/cpufreq/scaling_setspeed");
 	assert(fout && "Could not open scaling_setspeed");
 	cotton::WORKER_ARRAY[ worker_id ].current_frequency_index += 1;
 	double new_speed = cotton::CPU_FREQUENCIES_SUPPORTED[ cotton::WORKER_ARRAY[ worker_id ].current_frequency_index];
@@ -547,7 +544,7 @@ void cotton::DOWN(int worker_id) {
 	if( cotton::WORKER_ARRAY[ worker_id ].current_frequency_index == 0 ) {
 		return;
 	}
-	std::ofstream fout("/sys/devices/system/cpu/cpufreq/policy" + std::to_string(worker_id) + "/scaling_setspeed");
+	std::ofstream fout("/sys/devices/system/cpu/cpu" + std::to_string(worker_id) + "/cpufreq/scaling_setspeed");
 	assert(fout && "Could not open scaling_setspeed");
 	cotton::WORKER_ARRAY[ worker_id ].current_frequency_index -= 1;
 	double new_speed = cotton::CPU_FREQUENCIES_SUPPORTED[ cotton::WORKER_ARRAY[ worker_id ].current_frequency_index];
@@ -567,7 +564,7 @@ void cotton::DOWN(int worker_id_1, int worker_id_2) {
 	if( cotton::WORKER_ARRAY[ worker_id_1 ].current_frequency_index == 0 ) {
 		return;
 	}
-	std::ofstream fout("/sys/devices/system/cpu/cpufreq/policy" + std::to_string(worker_id_2) + "/scaling_setspeed");
+	std::ofstream fout("/sys/devices/system/cpu/cpu" + std::to_string(worker_id_2) + "/cpufreq/scaling_setspeed");
 	assert(fout && "Could not open scaling_setspeed");
 	cotton::WORKER_ARRAY[ worker_id_2 ].current_frequency_index = cotton::WORKER_ARRAY[worker_id_1].current_frequency_index - 1;
 	double new_speed = cotton::CPU_FREQUENCIES_SUPPORTED[ cotton::WORKER_ARRAY[ worker_id_2 ].current_frequency_index];

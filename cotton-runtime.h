@@ -22,7 +22,7 @@ namespace cotton {
 	pthread_once_t THREAD_KEY_ONCE = PTHREAD_ONCE_INIT;
 	pthread_mutex_t FINISH_MUTEX = PTHREAD_MUTEX_INITIALIZER;
 	
-	double CPU_FREQUENCIES_SUPPORTED[] = {0};
+	int CPU_FREQUENCIES_SUPPORTED[] = {0};
 
 	struct Deque {
 		volatile unsigned int head;
