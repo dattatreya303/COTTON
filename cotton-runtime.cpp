@@ -138,8 +138,7 @@ Sets the CPU affinity mask of the thread with given core_id
 @return 0 if success or nonzero error number if error encountered
 **/
 unsigned int cotton::bind_thread_to_core(pthread_t thread_to_map, int core_id) {
-	int num_cores = sysconf(_SC_NPROCESSORS_ONLN);
-	assert(!(core_id < 0 || core_id >= num_cores));
+	assert(!(core_id < 0 || core_id >= cotton::NUM_CORES));
 
 	cpu_set_t cpuset;
 	CPU_ZERO(&cpuset);
@@ -158,8 +157,12 @@ void* cotton::worker_routine(void *args) {
 	unsigned int thread_id = *(unsigned int *)args;
 
 	if (cotton::EEFC_MODE) {
-		int num_cores = sysconf(_SC_NPROCESSORS_ONLN);
-		cotton::bind_thread_to_core(pthread_self(), thread_id % num_cores);
+		cotton::bind_thread_to_core(pthread_self(), thread_id % cotton::NUM_CORES);
+		std::ofstream fout("/sys/devices/system/cpu/cpu" + std::to_string(thread_id) + "/cpufreq/scaling_setspeed");
+		assert(fout && "Could not open scaling_setspeed in worker_routine");
+		int new_speed = cotton::CPU_FREQUENCIES_SUPPORTED[ cotton::WORKER_ARRAY[ thread_id ].current_frequency_index];
+		fout << new_speed;
+		fout.close();
 	}
 
 	assert((pthread_setspecific(cotton::THREAD_KEY, &thread_id) == 0));
@@ -251,16 +254,17 @@ void cotton::init_runtime() {
 
 	cotton::set_eefc_mode();
 
-	int num_cores = sysconf(_SC_NPROCESSORS_ONLN);
-
 	if (cotton::EEFC_MODE) {
 		cotton::set_supported_cpu_frequencies();
 	}
 
+
 	cotton::NUM_WORKERS = cotton::thread_pool_size();
 
+	printf("%d\n", cotton::NUM_CORES);
+
 	if (cotton::EEFC_MODE) {
-		assert(cotton::NUM_WORKERS <= num_cores && "Energy Efficiency can be observed only when number of workers are less than the number of cores on system");
+		assert(cotton::NUM_WORKERS <= cotton::NUM_CORES && "Energy Efficiency can be observed only when number of workers are less than the number of cores on system");
 	}
 
 	assert((pthread_once(&cotton::THREAD_KEY_ONCE, cotton::lib_key_init) == 0));
@@ -268,8 +272,6 @@ void cotton::init_runtime() {
 	unsigned int *args = (unsigned int *)malloc( sizeof(unsigned int) * cotton::NUM_WORKERS );
 	*(args) = 0;
 
-	if (cotton::EEFC_MODE)
-		cotton::bind_thread_to_core(pthread_self(), 0);
 
 	assert((pthread_setspecific(cotton::THREAD_KEY, args) == 0));
 
@@ -286,6 +288,16 @@ void cotton::init_runtime() {
 		int status = pthread_create(&cotton::thread[i], NULL, cotton::worker_routine, args+i);
 	}
 
+	if (cotton::EEFC_MODE) {
+		cotton::bind_thread_to_core(pthread_self(), 0);
+		printf("hello\n");
+		std::ofstream fout("/sys/devices/system/cpu/cpu" + std::to_string(0) + "/cpufreq/scaling_setspeed");
+		assert(fout && "Could not open scaling_setspeed in worker_routine");
+		printf("new speed %d\n", cotton::WORKER_ARRAY[ 0 ].current_frequency_index);
+		int new_speed = cotton::CPU_FREQUENCIES_SUPPORTED[ cotton::WORKER_ARRAY[ 0 ].current_frequency_index];
+		fout << new_speed;
+		fout.close();
+	}
 }
 
 /**
@@ -490,6 +502,9 @@ Checks the available frequencies supported by cpu cores of the system, and sets 
 @return Void
 **/
 void cotton::set_supported_cpu_frequencies() {
+
+	cotton::NUM_CORES = (unsigned int)sysconf(_SC_NPROCESSORS_ONLN);
+	printf("set_supported_cpu_frequencies %d\n", cotton::NUM_CORES);
 	
 	std::ifstream fin_available("/sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies");
 	assert(fin_available && "Could not open scaling_available_frequencies");
@@ -512,6 +527,17 @@ void cotton::set_supported_cpu_frequencies() {
 	}
 
 	fin_available.close();
+
+	printf("lolol\n");
+
+	// for (int worker_id = 0; worker_id < cotton::NUM_CORES; worker_id++) {
+	// 	std::ofstream fout("/sys/devices/system/cpu/cpu" + std::to_string(worker_id) + "/cpufreq/scaling_setspeed");
+	// 	assert(fout && "Could not open scaling_setspeed");
+	// 	cotton::WORKER_ARRAY[ worker_id ].current_frequency_index += 1;
+	// 	int new_speed = cotton::CPU_FREQUENCIES_SUPPORTED[ cotton::WORKER_ARRAY[ worker_id ].current_frequency_index];
+	// 	fout << new_speed;
+	// }
+
 }
 
 /**
@@ -528,8 +554,9 @@ void cotton::UP(int worker_id) {
 	std::ofstream fout("/sys/devices/system/cpu/cpu" + std::to_string(worker_id) + "/cpufreq/scaling_setspeed");
 	assert(fout && "Could not open scaling_setspeed");
 	cotton::WORKER_ARRAY[ worker_id ].current_frequency_index += 1;
-	double new_speed = cotton::CPU_FREQUENCIES_SUPPORTED[ cotton::WORKER_ARRAY[ worker_id ].current_frequency_index];
+	int new_speed = cotton::CPU_FREQUENCIES_SUPPORTED[ cotton::WORKER_ARRAY[ worker_id ].current_frequency_index];
 	fout << new_speed;
+	fout.close();
 	return;
 }
 
@@ -547,8 +574,9 @@ void cotton::DOWN(int worker_id) {
 	std::ofstream fout("/sys/devices/system/cpu/cpu" + std::to_string(worker_id) + "/cpufreq/scaling_setspeed");
 	assert(fout && "Could not open scaling_setspeed");
 	cotton::WORKER_ARRAY[ worker_id ].current_frequency_index -= 1;
-	double new_speed = cotton::CPU_FREQUENCIES_SUPPORTED[ cotton::WORKER_ARRAY[ worker_id ].current_frequency_index];
+	int new_speed = cotton::CPU_FREQUENCIES_SUPPORTED[ cotton::WORKER_ARRAY[ worker_id ].current_frequency_index];
 	fout << new_speed;
+	fout.close();
 	return;
 }
 
@@ -567,8 +595,9 @@ void cotton::DOWN(int worker_id_1, int worker_id_2) {
 	std::ofstream fout("/sys/devices/system/cpu/cpu" + std::to_string(worker_id_2) + "/cpufreq/scaling_setspeed");
 	assert(fout && "Could not open scaling_setspeed");
 	cotton::WORKER_ARRAY[ worker_id_2 ].current_frequency_index = cotton::WORKER_ARRAY[worker_id_1].current_frequency_index - 1;
-	double new_speed = cotton::CPU_FREQUENCIES_SUPPORTED[ cotton::WORKER_ARRAY[ worker_id_2 ].current_frequency_index];
+	int new_speed = cotton::CPU_FREQUENCIES_SUPPORTED[ cotton::WORKER_ARRAY[ worker_id_2 ].current_frequency_index];
 	fout << new_speed;
+	fout.close();
 	return;
 }
 

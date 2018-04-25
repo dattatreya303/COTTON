@@ -10,10 +10,12 @@ namespace cotton {
 	#define NUM_THRESHOLDS 4
 	#define CACHE_LINE_SIZE 64
 	
+
 	bool EEFC_MODE = false;
 	volatile bool SHUTDOWN;
 	pthread_t* thread = NULL;
 	pthread_key_t THREAD_KEY;
+	unsigned int NUM_CORES = 1;
 	unsigned int NUM_WORKERS = 0;
 	pthread_mutex_t* DEQUE_MUTEX = NULL;
 	volatile unsigned int FINISH_COUNTER;
